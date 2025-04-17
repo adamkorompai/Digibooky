@@ -26,9 +26,8 @@ public class MemberController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public MemberDto saveMember(@RequestBody CreateMemberDto createMemberDto) {
+    public CreateMemberDto saveMember(@RequestBody CreateMemberDto createMemberDto) {
         log.info("Inside saveMember" + createMemberDto);
-
         return memberService.saveMember(createMemberDto);
     }
 }

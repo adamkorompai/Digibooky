@@ -22,7 +22,7 @@ public class MemberMapper {
 
     public Member DtoTo(CreateMemberDto createMemberDto) {
         return new Member(
-                createMemberDto.getINSS(),
+                createMemberDto.getInss(),
                 createMemberDto.getLastName(),
                 createMemberDto.getFirstName(),
                 createMemberDto.getEmail(),
