@@ -15,6 +15,14 @@ public class Member {
 
     private Role role;
 
+    public Member(String lastName, String firstName, String email, Role role) {
+        this.id = UUID.randomUUID().toString();
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+        this.role = role;
+    }
+
     public Member(String INSS, String lastName, String firstName, String email, Role role) {
         this.id = UUID.randomUUID().toString();
         this.INSS = INSS;
@@ -37,9 +45,8 @@ public class Member {
         this.role = role;
     }
 
-    public static Member createAdmin(String INSS, String lastName, String firstName, String email) {
+    public static Member createAdmin(String lastName, String firstName, String email) {
         return new Member(
-                INSS,
                 lastName,
                 firstName,
                 email,
@@ -47,9 +54,8 @@ public class Member {
         );
     }
 
-    public static Member createLibrarian(String INSS, String lastName, String firstName, String email) {
+    public static Member createLibrarian(String lastName, String firstName, String email) {
         return new Member(
-                INSS,
                 lastName,
                 firstName,
                 email,

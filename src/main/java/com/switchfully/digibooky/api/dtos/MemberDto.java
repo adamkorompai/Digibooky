@@ -15,6 +15,15 @@ public class MemberDto {
     private String city;
 
     private Role role;
+    public MemberDto(){
+        // JACKSON
+    }
+
+    public MemberDto(String lastName, String firstName, String email){
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.email = email;
+    }
 
     public MemberDto( String lastName, String email, String city, Role role) {
         this.lastName = lastName;

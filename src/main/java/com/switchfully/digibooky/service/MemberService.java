@@ -7,6 +7,7 @@ import com.switchfully.digibooky.domain.Member;
 import com.switchfully.digibooky.repository.MemberRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class MemberService {
     private final MemberRepository repository;
     private final MemberMapper mapper;
 
+    @Autowired
     public MemberService(MemberRepository repository, MemberMapper mapper) {
         this.repository = repository;
         this.mapper = mapper;
@@ -34,6 +36,21 @@ public class MemberService {
         repository.getAllMembers().forEach((member1) -> {log.info(member1.toString());});
         return createMemberDto;
 
+    }
+
+    public MemberDto createAdmin(MemberDto memberDto) {
+        validateNoNullEmptyFields(memberDto.getEmail(), "Email is required");
+        validateEmailFormat(memberDto.getEmail());
+        validateNoNullEmptyFields(memberDto.getLastName(), "Last name is required");
+        return repository.createAdmin(memberDto);
+
+    }
+
+    public MemberDto createLibrarian(MemberDto memberDto) {
+        validateNoNullEmptyFields(memberDto.getEmail(), "Email is required");
+        validateEmailFormat(memberDto.getEmail());
+        validateNoNullEmptyFields(memberDto.getLastName(), "Last name is required");
+        return repository.createLibrarian(memberDto);
     }
 
     public List<MemberDto> getAllMember() {
