@@ -43,6 +43,9 @@ public class MemberRepository {
     public List<String> getAllInsses() {
         return members.values().stream().map(Member::getINSS).collect(Collectors.toList());
     }
+    public List<String> getAllEmails() {
+        return members.values().stream().map(Member::getEmail).collect(Collectors.toList());
+    }
 
 
 
