@@ -40,6 +40,15 @@ public class MemberTest {
         this.memberService = new MemberService(memberRepository,memberMapper);
     }
 
+    // -------------------------------------------- Create New Member ------------------------------
+
+
+    /**
+     * This test is made to check if when a User is created, the isbn is not used
+     * So the validation is made inside the service and this test call the service to
+     * see if the check is made
+     *
+     * */
     @Test
     public void whenSavingMemberToDb_GivingInssThatAlreadyExists_ThenThrowException() {
         Member member = memberRepository.getAllMembers().get(0);
@@ -54,6 +63,14 @@ public class MemberTest {
             memberService.saveMember(createMemberDto);
         });
     }
+
+
+    /**
+     * This test is made to check if when a User is created, the email is not already
+     * used So the validation is made inside the service and
+     * this test call the service to see if the check is made
+     *
+     * */
 
     @Test
     public void whenSavingMemberToDb_GivingEmailThatAlreadyExists_ThenThrowException() {
@@ -70,18 +87,31 @@ public class MemberTest {
         });
     }
 
+    /**
+     *
+     * Test to see if a member is created, the member role is automatically attributed
+     *
+     * */
+
     @Test
     public void whenCreatingAMember_ThenMemberHasAMemberRole() {
         CreateMemberDto dtoCreated = new CreateMemberDto(
                 "741223-558-34",
                 "Jack",
-                "Jack_Sparrow",
+                "Jack_Sparrow@hotmail.com",
                 "Brussels"
         );
         memberService.saveMember(dtoCreated);
         Member member = getLastMemberAdded();
         Assertions.assertEquals(member.getRole(), Role.MEMBER);
     }
+
+
+    /**
+     * If the email is null then throws an Exception
+     *
+     * */
+
 
     @Test
     public void whenCreatingAMember_WithNoEmail_ThenThrowException() {
@@ -96,6 +126,11 @@ public class MemberTest {
         });
     }
 
+    /**
+     * If the lastname is null then throws an Exception
+     *
+     * */
+
     @Test
     public void whenCreatingAMember_WithNoLastName_ThenThrowException() {
         CreateMemberDto dtoCreated = new CreateMemberDto(
@@ -108,6 +143,12 @@ public class MemberTest {
             memberService.saveMember(dtoCreated);
         });
     }
+
+    /**
+     * If the city is null then throws an Exception
+     *
+     * */
+
 
     @Test
     public void whenCreatingAMember_WithNoCity_ThenThrowException() {
@@ -122,11 +163,32 @@ public class MemberTest {
         });
     }
 
-    private Member getLastMemberAdded(){
+    /**
+     *  A method to get the last member added, it has to be changed because
+     *  it seem that the order of the map change so I cant really get the last data
+     *  added inside the map
+     *
+     * */
+
+    private Member getLastMemberAdded() {
         List<Member> members = memberRepository.getAllMembers();
-        return members.get(members.size()-1);
+        System.out.println("getLastMemberAdded method : "+ members);
+        return members.get(0);
 
     }
+
+    //TODO Test : Empty Email
+    //TODO Test : Empty City
+    //TODO Test : Empty lastname
+    //TODO Test : Empty INSS
+    //TODO Test : Bad Email Format(xxx@xxx.xxx)
+    //TODO Test : Bad City Format(Only letters)
+    //TODO Test : Bad lastname format(Only Letters)
+    //TODO Test :
+    //TODO Test :
+    //TODO Test :
+
+
 
 
 
