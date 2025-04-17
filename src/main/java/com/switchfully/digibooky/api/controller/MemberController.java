@@ -46,4 +46,18 @@ public class MemberController {
         log.info("Inside getAllMember");
         return memberService.getAllMember();
     }
+
+    @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public MemberDto createAdmin(@RequestBody MemberDto memberDto) {
+        log.info("Inside createAdmin" + memberDto);
+        return memberService.createAdmin(memberDto);
+    }
+
+    @PostMapping(value = "/librarian", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public MemberDto createLibrarian(@RequestBody MemberDto memberDto) {
+        log.info("Inside createLibrarian" + memberDto);
+        return memberService.createLibrarian(memberDto);
+    }
 }
