@@ -1,6 +1,7 @@
 package com.switchfully.digibooky.service;
 
 import com.switchfully.digibooky.api.dtos.CreateMemberDto;
+import com.switchfully.digibooky.api.dtos.MemberDto;
 import com.switchfully.digibooky.api.dtos.mapper.MemberMapper;
 import com.switchfully.digibooky.domain.Member;
 import com.switchfully.digibooky.repository.MemberRepository;
@@ -8,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
@@ -31,6 +34,11 @@ public class MemberService {
         repository.getAllMembers().forEach((member1) -> {log.info(member1.toString());});
         return createMemberDto;
 
+    }
+
+    public List<MemberDto> getAllMember() {
+        List<Member> members = repository.getAllMembers();
+        return members.stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
     public void verification(CreateMemberDto createMemberDto) {

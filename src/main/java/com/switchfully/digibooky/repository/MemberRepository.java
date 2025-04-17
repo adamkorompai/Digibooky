@@ -18,8 +18,6 @@ public class MemberRepository {
     public MemberRepository() {
         members = new ConcurrentHashMap<>();
         addAdmin();
-
-
     }
 
     private void addAdmin() {
@@ -37,6 +35,7 @@ public class MemberRepository {
     }
 
     public List<Member> getAllMembers() {
+
         return new ArrayList<>(members.values());
     }
 

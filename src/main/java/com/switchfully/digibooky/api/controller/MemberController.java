@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/digibooky/members")
 public class MemberController {
@@ -29,5 +31,12 @@ public class MemberController {
     public CreateMemberDto saveMember(@RequestBody CreateMemberDto createMemberDto) {
         log.info("Inside saveMember" + createMemberDto);
         return memberService.saveMember(createMemberDto);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<MemberDto> getAllMember() {
+        log.info("Inside getAllMember");
+        return memberService.getAllMember();
     }
 }
