@@ -1,12 +1,17 @@
 package com.switchfully.digibooky.service;
 
 import com.switchfully.digibooky.api.dtos.CreateMemberDto;
+import com.switchfully.digibooky.api.dtos.MemberDto;
 import com.switchfully.digibooky.api.dtos.mapper.MemberMapper;
 import com.switchfully.digibooky.domain.Member;
 import com.switchfully.digibooky.repository.MemberRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberService {
@@ -31,23 +36,42 @@ public class MemberService {
 
     }
 
+    public List<MemberDto> getAllMember() {
+        List<Member> members = repository.getAllMembers();
+        return members.stream().map(mapper::toDto).collect(Collectors.toList());
+    }
+
     public void verification(CreateMemberDto createMemberDto) {
-        if (createMemberDto.getEmail() == null || createMemberDto.getEmail().isEmpty()) {
-            throw new IllegalArgumentException("Email is required");
-        }
-        if (createMemberDto.getLastName() == null || createMemberDto.getLastName().isEmpty()) {
-            throw new IllegalArgumentException("Last name is required");
-        }
+        validateNoNullEmptyFields(createMemberDto.getEmail(), "Email is required");
+        validateEmailFormat(createMemberDto.getEmail());
+        validateNoNullEmptyFields(createMemberDto.getLastName(), "Lat name  is required");
+        validateNoNullEmptyFields(createMemberDto.getCity(), "City is required");
+
         if(repository.getAllInsses().contains(createMemberDto.getInss())) {
-            throw new IllegalArgumentException("The given inss is already in use");
+            throw new IllegalArgumentException("The given INSS is already in use");
         }
-        if(createMemberDto.getCity() == null || createMemberDto.getCity().isEmpty()) {
-            throw new IllegalArgumentException("City is required");
+        if(repository.getAllEmails().contains(createMemberDto.getEmail())) {
+            throw new IllegalArgumentException("The given email is already in use");
         }
-
-
 
     }
+
+    private void validateEmailFormat(String email) {
+        if (email != null && !email.isEmpty()) {
+            String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"; // format x@x.x where x is any number of letter/number
+            Pattern pattern = Pattern.compile(emailRegex);
+            if (!pattern.matcher(email).matches()) {
+                throw new IllegalArgumentException("Invalid email format");
+            }
+        }
+    }
+
+    private void validateNoNullEmptyFields(String Field, String errorMessage) {
+        if (Field == null || Field.isEmpty()) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+    }
+
 
 
 

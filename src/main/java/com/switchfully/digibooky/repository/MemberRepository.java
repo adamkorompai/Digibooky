@@ -18,8 +18,6 @@ public class MemberRepository {
     public MemberRepository() {
         members = new ConcurrentHashMap<>();
         addAdmin();
-
-
     }
 
     private void addAdmin() {
@@ -37,11 +35,15 @@ public class MemberRepository {
     }
 
     public List<Member> getAllMembers() {
+
         return new ArrayList<>(members.values());
     }
 
     public List<String> getAllInsses() {
         return members.values().stream().map(Member::getINSS).collect(Collectors.toList());
+    }
+    public List<String> getAllEmails() {
+        return members.values().stream().map(Member::getEmail).collect(Collectors.toList());
     }
 
 
