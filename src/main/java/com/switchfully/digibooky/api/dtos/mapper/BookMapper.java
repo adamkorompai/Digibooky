@@ -5,7 +5,6 @@ import com.switchfully.digibooky.api.dtos.BookDto;
 import com.switchfully.digibooky.domain.Author;
 import com.switchfully.digibooky.domain.Book;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpClientErrorException;
 
 @Component
 public class BookMapper {
