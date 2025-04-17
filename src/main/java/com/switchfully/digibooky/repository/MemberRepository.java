@@ -23,14 +23,8 @@ public class MemberRepository {
 
     public MemberRepository(MemberMapper memberMapper) {
         members = new ConcurrentHashMap<>();
-        //addAdmin();
-        Member admin00 = Member.createAdmin(
-                "Bob",
-                "Bobby",
-                "bob_bobby@hotmail.com"
-        );
-        log.info("Creating admin: {}", admin00);
-        members.put(admin00.getId(),admin00);
+        addAdmin();
+
         this.memberMapper = memberMapper;
     }
 
