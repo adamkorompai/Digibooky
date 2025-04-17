@@ -1,6 +1,7 @@
 package com.switchfully.digibooky.api.controller;
 
 
+import com.switchfully.digibooky.api.dtos.CreateMemberDto;
 import com.switchfully.digibooky.api.dtos.MemberDto;
 import com.switchfully.digibooky.service.MemberService;
 import org.slf4j.Logger;
@@ -9,12 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
-@Repository
+@RestController
 @RequestMapping("/digibooky/members")
 public class MemberController {
 
@@ -28,9 +26,9 @@ public class MemberController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public MemberDto saveMember(@RequestBody String inss,@RequestBody MemberDto memberDto) {
-        log.info("Inside saveMember" + memberDto);
+    public MemberDto saveMember(@RequestBody CreateMemberDto createMemberDto) {
+        log.info("Inside saveMember" + createMemberDto);
 
-        return memberService.saveMember(inss,memberDto);
+        return memberService.saveMember(createMemberDto);
     }
 }

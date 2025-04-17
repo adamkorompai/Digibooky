@@ -16,10 +16,10 @@ public class MemberDto {
 
     private Role role;
 
-    public MemberDto( String lastName, String firstName, String email, Role role) {
+    public MemberDto( String lastName, String email, String city, Role role) {
         this.lastName = lastName;
-        this.firstName = firstName;
         this.email = email;
+        this.city = city;
         this.role = role;
     }
 

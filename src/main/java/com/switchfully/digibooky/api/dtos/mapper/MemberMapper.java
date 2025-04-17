@@ -1,5 +1,6 @@
 package com.switchfully.digibooky.api.dtos.mapper;
 
+import com.switchfully.digibooky.api.dtos.CreateMemberDto;
 import com.switchfully.digibooky.api.dtos.MemberDto;
 import com.switchfully.digibooky.domain.Member;
 import org.springframework.stereotype.Component;
@@ -19,16 +20,16 @@ public class MemberMapper {
         );
     }
 
-    public Member DtoTo(String inss,MemberDto memberdto) {
+    public Member DtoTo(CreateMemberDto createMemberDto) {
         return new Member(
-                inss,
-                memberdto.getLastName(),
-                memberdto.getFirstName(),
-                memberdto.getEmail(),
-                memberdto.getStreetName(),
-                memberdto.getStreetNumber(),
-                memberdto.getCity(),
-                memberdto.getRole()
+                createMemberDto.getINSS(),
+                createMemberDto.getLastName(),
+                createMemberDto.getFirstName(),
+                createMemberDto.getEmail(),
+                createMemberDto.getStreetName(),
+                createMemberDto.getStreetNumber(),
+                createMemberDto.getCity(),
+                createMemberDto.getRole()
         );
     }
 }

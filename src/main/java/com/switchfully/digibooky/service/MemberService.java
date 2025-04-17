@@ -1,5 +1,6 @@
 package com.switchfully.digibooky.service;
 
+import com.switchfully.digibooky.api.dtos.CreateMemberDto;
 import com.switchfully.digibooky.api.dtos.MemberDto;
 import com.switchfully.digibooky.api.dtos.mapper.MemberMapper;
 import com.switchfully.digibooky.domain.Member;
@@ -18,26 +19,26 @@ public class MemberService {
         this.mapper = mapper;
     }
 
-    public MemberDto saveMember(String inss,MemberDto memberDto) {
+    public CreateMemberDto saveMember(CreateMemberDto createMemberDto) {
 
-        verification(inss,memberDto);
-        Member member = mapper.DtoTo(inss,memberDto);
+        verification(createMemberDto);
+        Member member = mapper.DtoTo(createMemberDto);
         repository.save(member);
-        return memberDto;
+        return createMemberDto;
 
     }
 
-    public void verification(String inss,MemberDto memberDto) {
-        if (memberDto.getEmail() == null || memberDto.getEmail().isEmpty()) {
+    public void verification(CreateMemberDto createMemberDto) {
+        if (createMemberDto.getEmail() == null || createMemberDto.getEmail().isEmpty()) {
             throw new IllegalArgumentException("Email is required");
         }
-        if (memberDto.getLastName() == null || memberDto.getLastName().isEmpty()) {
+        if (createMemberDto.getLastName() == null || createMemberDto.getLastName().isEmpty()) {
             throw new IllegalArgumentException("Last name is required");
         }
-        if(repository.getAllInsses().contains(inss)) {
+        if(repository.getAllInsses().contains(createMemberDto.getINSS())) {
             throw new IllegalArgumentException("The given inss is already in use");
         }
-        if(memberDto.getCity() == null || memberDto.getCity().isEmpty()) {
+        if(createMemberDto.getCity() == null || createMemberDto.getCity().isEmpty()) {
             throw new IllegalArgumentException("City is required");
         }
 
