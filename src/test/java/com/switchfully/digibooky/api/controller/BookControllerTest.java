@@ -32,5 +32,26 @@ public class BookControllerTest {
                     .body("[0].author", notNullValue())
                     .body("[0].summary", notNullValue());
         }
+
+        @Test
+        public void getBookById_shouldReturnBook() {
+            given()
+                    .port(port)
+                    .contentType("application/json")
+                    .when()
+                    .get("/digibooky/books/1")
+                    .then()
+                    .statusCode(200)
+                    .body("isbn", notNullValue())
+                    .body("title", notNullValue())
+                    .body("author", notNullValue())
+                    .body("summary", notNullValue());
+        }
+
+        @Test
+        public void getBookByIsbn_shouldReturnBook() {
+
+        }
+
     }
 }

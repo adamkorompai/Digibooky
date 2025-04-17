@@ -6,6 +6,9 @@ import com.switchfully.digibooky.domain.Author;
 import com.switchfully.digibooky.domain.Book;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class BookMapper {
 
@@ -27,5 +30,9 @@ public class BookMapper {
         Author author = mapToAuthor(bookDto.getAuthor());
 
         return new Book(bookDto.getIsbn(), author, bookDto.getTitle(), bookDto.getSummary());
+    }
+
+    public List<BookDto> mapToBookDtos(List<Book> books) {
+        return books.stream().map(this::mapToBookDto).collect(Collectors.toList());
     }
 }
