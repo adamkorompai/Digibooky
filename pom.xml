@@ -41,6 +41,7 @@
             <scope>test</scope>
         </dependency>
 
+
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -60,6 +61,7 @@
             <version>5.17.0</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
