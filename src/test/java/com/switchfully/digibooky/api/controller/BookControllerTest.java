@@ -7,6 +7,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookControllerTest {
@@ -47,11 +48,5 @@ public class BookControllerTest {
                     .body("author", notNullValue())
                     .body("summary", notNullValue());
         }
-
-        @Test
-        public void getBookByIsbn_shouldReturnBook() {
-
-        }
-
     }
 }

@@ -34,8 +34,8 @@ public class MemberTest {
 
     @BeforeEach
     void setUp() {
-        this.memberRepository = new MemberRepository();
         this.memberMapper = new MemberMapper();
+        this.memberRepository = new MemberRepository(memberMapper);
 
         this.memberService = new MemberService(memberRepository,memberMapper);
     }

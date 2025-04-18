@@ -7,6 +7,7 @@ public class Book {
     private Author author;
     private String summary;
 
+
     private static long nextId = 1;
 
     public Book(String isbn, Author author, String title, String summary) {
