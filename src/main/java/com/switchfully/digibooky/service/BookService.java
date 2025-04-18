@@ -33,7 +33,8 @@ public class BookService {
     public BookDto getBookById(long id) {
         logger.info("Getting book by id {}", id);
         Book book = bookRepository.getBookById(id);
-        return bookMapper.mapToBookDto(book);
+        BookDto bookDto = bookMapper.mapToBookDto(book);
+        return bookDto;
     }
 
     public List<BookDto> searchBooksByIsbn(String isbn) {

@@ -2,8 +2,11 @@ package com.switchfully.digibooky.api.controller;
 
 
 import com.switchfully.digibooky.api.dtos.CreateMemberDto;
+import com.switchfully.digibooky.api.dtos.CreateRentalDto;
 import com.switchfully.digibooky.api.dtos.MemberDto;
+import com.switchfully.digibooky.api.dtos.RentalDto;
 import com.switchfully.digibooky.service.MemberService;
+import com.switchfully.digibooky.service.RentalService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +27,14 @@ public class MemberController {
     private static final Logger log = LoggerFactory.getLogger(MemberController.class);
     private MemberService memberService;
 
+
+    private final RentalService rentalService;
+
+
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, RentalService rentalService) {
         this.memberService = memberService;
+        this.rentalService = rentalService;
     }
 
 
@@ -60,4 +68,20 @@ public class MemberController {
         log.info("Inside createLibrarian" + memberDto);
         return memberService.createLibrarian(memberDto);
     }
+
+    // This is an Only member feature that's
+    @PostMapping(value = "/rent",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public CreateRentalDto addRental(@RequestBody CreateRentalDto rental) {
+        return rentalService.createRent(rental);
+    }
+
+    // This is an Only member feature that's
+    @PostMapping(value = "/return/{rentId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public RentalDto returnBook(@PathVariable String rentId) {
+        return rentalService.returnRent(rentId);
+    }
+
+
 }
