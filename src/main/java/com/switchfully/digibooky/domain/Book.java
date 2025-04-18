@@ -1,5 +1,7 @@
 package com.switchfully.digibooky.domain;
 
+import java.util.Objects;
+
 public class Book {
     private long id;
     private String isbn;
@@ -64,7 +66,9 @@ public class Book {
         this.summary = summary;
     }
 
-    public void setNumberOfCopy(int numberOfCopy) {}
+    public void setNumberOfCopy(int numberOfCopy) {
+        this.numberOfCopy = numberOfCopy;
+    }
 
     @Override
     public String toString() {
@@ -75,5 +79,17 @@ public class Book {
                 ", author=" + author +
                 ", summary='" + summary + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id == book.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 }
