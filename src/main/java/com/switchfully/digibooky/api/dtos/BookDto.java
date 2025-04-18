@@ -54,4 +54,5 @@ public class BookDto {
     public void setSummary(String summary) {
         this.summary = summary;
     }
+
 }

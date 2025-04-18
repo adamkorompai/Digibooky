@@ -69,16 +69,24 @@ public class BookService {
     public BookDto updateBook(String isbn, BookDto bookDto) {
         logger.info("Updating book {}", bookDto.getIsbn());
         Book book = bookRepository.getBookByIsbn(isbn);
+        if (book == null) {
+            throw new IllegalArgumentException("There is no book with this ISBN in the database");
+        }
         book.setTitle(bookDto.getTitle());
         book.setAuthor(bookMapper.mapToAuthor(bookDto.getAuthor()));
         book.setSummary(bookDto.getSummary());
+        book.setNumberOfCopy(bookDto.getNumberOfCopy());
         return bookMapper.mapToBookDto(book);
     }
 
     public void deleteBook(String isbn) {
         logger.info("Deleting book {}", isbn);
         Book book = bookRepository.getBookByIsbn(isbn);
+        if (book == null) {
+            throw new IllegalArgumentException("There is no book with this ISBN in the database");
+        }
         book.setNumberOfCopy(-1);
+        bookRepository.saveBook(book);
     }
 
     private void validateBook(BookDto bookDto) {
@@ -99,7 +107,7 @@ public class BookService {
     // Method to validate ISBN-13 , tried with adding following isbn 978-92-95055-02-5, do not work even if valid isbn..
     public boolean validateISBN13(String isbn) {
         // Step 1: Check format using regex
-        String regex = "^(978|979)-\\d{1,5}-\\d{1,7}-\\d{1,7}-\\d{1}$"; 	//978-0-7475-3269-9
+        String regex = "^(978|979)-\\d{1,5}-\\d{1,7}-\\d{1,7}-\\d{1}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(isbn);
 
