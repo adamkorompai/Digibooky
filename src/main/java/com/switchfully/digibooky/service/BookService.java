@@ -53,4 +53,29 @@ public class BookService {
         List<Book> books = bookRepository.searchBooksByAuthor(author);
         return bookMapper.mapToBookDtos(books);
     }
+
+    public BookDto createBook(BookDto bookDto) {
+        logger.info("Creating book {}", bookDto.getTitle());
+        validateBook(bookDto);
+        Book book = bookMapper.mapToBook(bookDto);
+        bookRepository.saveBook(book);
+        return bookMapper.mapToBookDto(book);
+    }
+
+    private void validateBook(BookDto bookDto) {
+        if (bookDto.getTitle() == null || bookDto.getTitle().isEmpty()) {
+            throw new IllegalArgumentException("Title cannot be null");
+        }
+        if (bookDto.getAuthor() == null) {
+            throw new IllegalArgumentException("Author cannot be null");
+        }
+        if (bookDto.getIsbn() == null) {
+            throw new IllegalArgumentException("Isbn cannot be null");
+        }
+        if (bookDto.getAuthor().getLastname() == null) {
+            throw new IllegalArgumentException("Lastname cannot be null");
+        }
+    }
+
+
 }
