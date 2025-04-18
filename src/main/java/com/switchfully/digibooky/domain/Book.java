@@ -6,16 +6,18 @@ public class Book {
     private String title;
     private Author author;
     private String summary;
+    private int numberOfCopy;
 
 
     private static long nextId = 1;
 
-    public Book(String isbn, Author author, String title, String summary) {
+    public Book(String isbn, Author author, String title, String summary, int numberOfCopy) {
         this.id = nextId++;
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.summary = summary;
+        this.numberOfCopy = numberOfCopy;
     }
 
     public long getId() {
@@ -38,6 +40,10 @@ public class Book {
         return summary;
     }
 
+    public int getNumberOfCopy() {
+        return numberOfCopy;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -57,6 +63,8 @@ public class Book {
     public void setSummary(String summary) {
         this.summary = summary;
     }
+
+    public void setNumberOfCopy(int numberOfCopy) {}
 
     @Override
     public String toString() {

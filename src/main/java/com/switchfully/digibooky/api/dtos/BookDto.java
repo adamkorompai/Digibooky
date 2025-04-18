@@ -7,14 +7,16 @@ public class BookDto {
     private String title;
     private AuthorDto author;
     private String summary;
+    private int numberOfCopy;
 
     public BookDto() {}
 
-    public BookDto(String isbn, String title, AuthorDto author, String summary) {
+    public BookDto(String isbn, String title, AuthorDto author, String summary,int numberOfCopy) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.summary = summary;
+        this.numberOfCopy = numberOfCopy;
     }
 
     public String getIsbn() {
@@ -31,6 +33,10 @@ public class BookDto {
 
     public String getSummary() {
         return summary;
+    }
+
+    public int getNumberOfCopy() {
+        return numberOfCopy;
     }
 
     public void setIsbn(String isbn) {

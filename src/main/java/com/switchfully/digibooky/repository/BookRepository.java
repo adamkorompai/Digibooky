@@ -21,9 +21,9 @@ public class BookRepository {
         Author author1 = new Author("Jane", "Doe");
         Author author2 = new Author("John", "Doe");
 
-        Book book1 = new Book("978-1-23-456789-7", author1, "The Great Adventure" , "A thrilling adventure story.");
-        Book book2 = new Book("978-9-87-654321-0", author1, "Mystery of the Old Manor", "A mysterious tale of an old manor.");
-        Book book3 = new Book("978-0-12-345678-9", author2, "Programming Basics" ,"Learn programming fundamentals.");
+        Book book1 = new Book("978-0-7475-3269-0", author1, "The Great Adventure" , "A thrilling adventure story.",2);
+        Book book2 = new Book("978-9-87-654321-0", author1, "Mystery of the Old Manor", "A mysterious tale of an old manor.",3);
+        Book book3 = new Book("978-0-12-345678-9", author2, "Programming Basics" ,"Learn programming fundamentals.",4);
 
         bookDatabase.put(book1.getId(), book1);
         bookDatabase.put(book2.getId(), book2);
@@ -43,7 +43,7 @@ public class BookRepository {
     }
 
     public Book getBookByIsbn(String isbn) {
-        return bookDatabase.get(Long.parseLong(isbn));
+        return bookDatabase.values().stream().filter(book -> book.getIsbn().equals(isbn)).findFirst().orElse(null);
     }
 
     public List<Book> searchBooksByIsbn(String isbn) {
