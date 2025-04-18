@@ -52,7 +52,7 @@ public class BookServiceTest {
 
         assertNotNull(result);
         assertEquals(bookRepository.getAllBooks().get(0).getIsbn(), result.getIsbn());
-        assertEquals(bookRepository.getAllBooks().get(0).getTitle(), result.getTitle()); 
+        assertEquals(bookRepository.getAllBooks().get(0).getTitle(), result.getTitle());
     }
 
     @Test
@@ -106,5 +106,21 @@ public class BookServiceTest {
         bookService.deleteBook("978-1-23-456789-7");
 
          assertEquals(-1,book.getNumberOfCopy() );
+    }
+
+    @Test
+    void checkISBN13_shouldReturnTrueForValidISBN() {
+        String validISBN = "978-92-95055-02-5";
+
+        boolean checkResult = bookService.validateISBN13(validISBN);
+        assertTrue(checkResult);
+    }
+
+    @Test
+    void checkISBN13_shouldReturnFalseForInvalidFormat() {
+        String validISBN = "978-92-95-5";
+
+        boolean checkResult = bookService.validateISBN13(validISBN);
+        assertFalse(checkResult);
     }
 }
