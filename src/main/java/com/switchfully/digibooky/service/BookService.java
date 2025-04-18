@@ -85,9 +85,9 @@ public class BookService {
         validateNotNullEmptyFields(bookDto.getTitle(), "Title is required");
         validateNotNullEmptyFields(bookDto.getAuthor().getLastname(), "Author is required");
         validateNotNullEmptyFields(bookDto.getIsbn(), "Isbn is required");
-//        if(validateISBN13(bookDto.getIsbn())){
-//            throw new IllegalArgumentException("ISBN must follow the ISBN 13");
-//        };
+        if(!validateISBN13(bookDto.getIsbn())){
+            throw new IllegalArgumentException("ISBN must follow the ISBN 13");
+        };
     }
 
     private void validateNotNullEmptyFields(String Field, String errorMessage) {
@@ -96,51 +96,46 @@ public class BookService {
         }
     }
 
-//    // Method to validate ISBN-13 , tried with adding following isbn 978-92-95055-02-5, do not work even if valid isbn..
-//    public static boolean validateISBN13(String isbn) {
-//        // Step 1: Check format using regex
-//        String regex = "^(978|979)-\\d{1,5}-\\d{1,7}-\\d{1,7}-\\d{1}$"; 	//978-0-7475-3269-9
-//        Pattern pattern = Pattern.compile(regex);
-//        Matcher matcher = pattern.matcher(isbn);
-//
-//        if (!matcher.matches()) {
-//            return false;  // ISBN doesn't match the format
-//        }
-//
-//        // Step 2: Remove hyphens and perform checksum validation
-//        isbn = isbn.replace("-", "");
-//
-//        // Ensure we have 13 digits
-//        if (isbn.length() != 13) {
-//            return false;
-//        }
-//
-//        // Step 3: Perform checksum validation
-//        int sum = 0;
-//        for (int i = 0; i < 12; i++) {
-//            int digit = Character.getNumericValue(isbn.charAt(i));
-//            // Multiply by 1 or 3 depending on position (even positions: multiply by 1, odd: multiply by 3)
-//            if (i % 2 == 0) {
-//                sum += digit;  // Even positions (0, 2, 4, ...) are multiplied by 1
-//            } else {
-//                sum += digit * 3;  // Odd positions (1, 3, 5, ...) are multiplied by 3
-//            }
-//        }
-//        System.out.println("Sum of first 12 digits: " + sum);  // Debugging line
-//
-//
-//        // Step 4: Calculate the check digit (last digit)
-//        int checkDigit = Character.getNumericValue(isbn.charAt(12));
-//        int remainder = sum % 10;
-//        int expectedCheckDigit = (10 - remainder) % 10;
-//
-//        System.out.println("Check digit: " + checkDigit);
-//        System.out.println("Remainder: " + remainder);
-//        System.out.println("Expected: " + expectedCheckDigit);
-//
-//        // Step 5: Compare the calculated check digit with the last digit of the ISBN
-//        return expectedCheckDigit == checkDigit;
-//    }
+    // Method to validate ISBN-13 , tried with adding following isbn 978-92-95055-02-5, do not work even if valid isbn..
+    public boolean validateISBN13(String isbn) {
+        // Step 1: Check format using regex
+        String regex = "^(978|979)-\\d{1,5}-\\d{1,7}-\\d{1,7}-\\d{1}$"; 	//978-0-7475-3269-9
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(isbn);
+
+        if (!matcher.matches()) {
+            return false;  // ISBN doesn't match the format
+        }
+
+        // Step 2: Remove hyphens and perform checksum validation
+        isbn = isbn.replace("-", "");
+
+        // Ensure we have 13 digits
+        if (isbn.length() != 13) {
+            return false;
+        }
+
+        // Step 3: Perform checksum validation
+        int sum = 0;
+        for (int i = 0; i < 12; i++) {
+            int digit = Character.getNumericValue(isbn.charAt(i));
+            // Multiply by 1 or 3 depending on position (even positions: multiply by 1, odd: multiply by 3)
+            if (i % 2 == 0) {
+                sum += digit;  // Even positions (0, 2, 4, ...) are multiplied by 1
+            } else {
+                sum += digit * 3;  // Odd positions (1, 3, 5, ...) are multiplied by 3
+            }
+        }
+
+        // Step 4: Calculate the check digit (last digit)
+        int checkDigit = Character.getNumericValue(isbn.charAt(12));
+        int remainder = sum % 10;
+        int expectedCheckDigit = (10 - remainder) % 10;
+
+
+        // Step 5: Compare the calculated check digit with the last digit of the ISBN
+        return expectedCheckDigit == checkDigit;
+    }
 
 
 }
