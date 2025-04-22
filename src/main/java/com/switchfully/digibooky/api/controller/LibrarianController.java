@@ -18,17 +18,14 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/digibooky/librarian")
 public class LibrarianController {
 
-
-    private final RentalService rentalService;
-    public LibrarianController(RentalService rentalService) {
-        this.rentalService = rentalService;
-
     private static final Logger logger = LoggerFactory.getLogger(LibrarianController.class);
     private final BookService bookService;
+    private final RentalService rentalService;
 
     @Autowired
-    public LibrarianController(BookService bookService) {
+    public LibrarianController(BookService bookService, RentalService rentalService) {
         this.bookService = bookService;
+        this.rentalService = rentalService;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
@@ -49,6 +46,4 @@ public class LibrarianController {
         bookService.deleteBook(isbn);
 
     }
-
-
 }
