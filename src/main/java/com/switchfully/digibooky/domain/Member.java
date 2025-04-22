@@ -12,27 +12,33 @@ public class Member {
     private String streetName;
     private String streetNumber;
     private String city;//Is required
+    private String username;//Is required
+    private String password; //Is required
 
     private Role role;
 
-    public Member(String lastName, String firstName, String email, Role role) {
+    public Member(String lastName, String firstName, String email, Role role, String username, String password) {
         this.id = UUID.randomUUID().toString();
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
         this.role = role;
+        this.username = username;
+        this.password = password;
     }
 
-    public Member(String INSS, String lastName, String firstName, String email, Role role) {
+    public Member(String INSS, String lastName, String firstName, String email, Role role, String username, String password) {
         this.id = UUID.randomUUID().toString();
         this.INSS = INSS;
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
         this.role = role;
+        this.username = username;
+        this.password = password;
     }
 
-    public Member(String INSS, String lastName, String firstName, String email, String streetName, String streetNumber, String city, Role role) {
+    public Member(String INSS, String lastName, String firstName, String email, String streetName, String streetNumber, String city, Role role, String username, String password) {
         this.id = UUID.randomUUID().toString();
         this.INSS = INSS;
 
@@ -43,23 +49,29 @@ public class Member {
         this.streetNumber = streetNumber;
         this.city = city;
         this.role = role;
+        this.username = username;
+        this.password = password;
     }
 
-    public static Member createAdmin(String lastName, String firstName, String email) {
+    public static Member createAdmin(String lastName, String firstName, String email, String username, String password) {
         return new Member(
                 lastName,
                 firstName,
                 email,
-                Role.ADMIN
+                Role.ADMIN,
+                username,
+                password
         );
     }
 
-    public static Member createLibrarian(String lastName, String firstName, String email) {
+    public static Member createLibrarian(String lastName, String firstName, String email, String username, String password) {
         return new Member(
                 lastName,
                 firstName,
                 email,
-                Role.LIBRARIAN
+                Role.LIBRARIAN,
+                username,
+                password
         );
     }
 
@@ -100,6 +112,14 @@ public class Member {
         return role;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public void setStreetName(String streetName) {
         this.streetName = streetName;
     }
@@ -122,6 +142,7 @@ public class Member {
                 ", streetName='" + streetName + '\'' +
                 ", streetNumber='" + streetNumber + '\'' +
                 ", city='" + city + '\'' +
+                "role= " +role +
                 '}';
     }
 }
