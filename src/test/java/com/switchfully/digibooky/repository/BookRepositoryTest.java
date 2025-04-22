@@ -17,11 +17,11 @@ public class BookRepositoryTest {
     public void setUp() {
         bookRepository = new BookRepository();
 
-        bookRepository.saveBook(new Book("978-1-11111-111-1", new Author("J.K.", "Rowling"), "Harry Potter and the Philosopher's Stone", "The first book in the Harry Potter series"));
-        bookRepository.saveBook(new Book("978-2-22222-222-2", new Author("J.R.R.", "Tolkien"), "The Lord of the Rings", "Epic fantasy novel"));
-        bookRepository.saveBook(new Book("978-3-33333-333-3", new Author("George", "Orwell"), "1984", "Dystopian social science fiction"));
-        bookRepository.saveBook(new Book("978-4-44444-444-4", new Author("Jane", "Austen"), "Pride and Prejudice", "Romantic novel"));
-        bookRepository.saveBook(new Book("978-5-55555-555-5", new Author("Stephen", "King"), "The Shining", "Horror novel"));
+        bookRepository.saveBook(new Book("978-1-11111-111-1", new Author("J.K.", "Rowling"), "Harry Potter and the Philosopher's Stone", "The first book in the Harry Potter series",2));
+        bookRepository.saveBook(new Book("978-2-22222-222-2", new Author("J.R.R.", "Tolkien"), "The Lord of the Rings", "Epic fantasy novel",3));
+        bookRepository.saveBook(new Book("978-3-33333-333-3", new Author("George", "Orwell"), "1984", "Dystopian social science fiction",4));
+        bookRepository.saveBook(new Book("978-4-44444-444-4", new Author("Jane", "Austen"), "Pride and Prejudice", "Romantic novel",1));
+        bookRepository.saveBook(new Book("978-5-55555-555-5", new Author("Stephen", "King"), "The Shining", "Horror novel",4));
     }
 
     @Test

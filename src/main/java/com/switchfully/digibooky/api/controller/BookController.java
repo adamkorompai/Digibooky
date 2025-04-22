@@ -2,8 +2,6 @@ package com.switchfully.digibooky.api.controller;
 
 import com.switchfully.digibooky.api.dtos.BookDto;
 import com.switchfully.digibooky.api.dtos.mapper.BookMapper;
-import com.switchfully.digibooky.domain.Book;
-import com.switchfully.digibooky.repository.BookRepository;
 import com.switchfully.digibooky.service.BookService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

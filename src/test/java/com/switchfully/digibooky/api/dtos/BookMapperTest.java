@@ -13,7 +13,7 @@ public class BookMapperTest {
     @Test
     public void mapToBookDto_shouldConvertToBookDtoCorrectly() {
         Author author = new Author("John", "Doe");
-        Book book = new Book("9781234567897", author, "Test book", "A summary");
+        Book book = new Book("9781234567897", author, "Test book", "A summary",2);
 
         BookDto result = bookMapper.mapToBookDto(book);
 
@@ -21,6 +21,7 @@ public class BookMapperTest {
         assertThat(result.getIsbn()).isEqualTo("9781234567897");
         assertThat(result.getTitle()).isEqualTo("Test book");
         assertThat(result.getSummary()).isEqualTo("A summary");
+        assertThat(result.getNumberOfCopy()).isEqualTo(2);
         assertThat(result.getAuthor()).isNotNull();
         assertThat(result.getAuthor().getFirstname()).isEqualTo("John");
         assertThat(result.getAuthor().getLastname()).isEqualTo("Doe");
@@ -29,7 +30,7 @@ public class BookMapperTest {
     @Test
     public void mapToBook_shouldConvertToBookCorrectly() {
         AuthorDto author = new AuthorDto("John", "Doe");
-        BookDto book = new BookDto("9781234567897", "Test book", author, "A summary");
+        BookDto book = new BookDto("9781234567897", "Test book", author, "A summary",2);
 
         Book result = bookMapper.mapToBook(book);
 
@@ -37,6 +38,7 @@ public class BookMapperTest {
         assertThat(result.getIsbn()).isEqualTo("9781234567897");
         assertThat(result.getTitle()).isEqualTo("Test book");
         assertThat(result.getSummary()).isEqualTo("A summary");
+        assertThat(result.getNumberOfCopy()).isEqualTo(2);
         assertThat(result.getAuthor()).isNotNull();
         assertThat(result.getAuthor().getFirstname()).isEqualTo("John");
         assertThat(result.getAuthor().getLastname()).isEqualTo("Doe");
