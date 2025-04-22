@@ -2,6 +2,8 @@ package com.switchfully.digibooky.api.controller;
 
 
 import com.switchfully.digibooky.api.dtos.CreateRentalDto;
+import com.switchfully.digibooky.api.dtos.RentalDto;
+import com.switchfully.digibooky.domain.Rental;
 import com.switchfully.digibooky.service.RentalService;
 
 import com.switchfully.digibooky.api.dtos.BookDto;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/digibooky/librarian")
@@ -45,5 +49,17 @@ public class LibrarianController {
     public void deleteBook(@PathVariable("isbn") String isbn) {
         bookService.deleteBook(isbn);
 
+    }
+
+    @GetMapping("/rentals/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<RentalDto> getRentalsByUserId(@PathVariable("id") String userId) {
+         return rentalService.getRentalsByUserId(userId);
+    }
+
+    @GetMapping("/overdue")
+    @ResponseStatus(HttpStatus.OK)
+    public List<RentalDto> getOverdueRentals() {
+        return rentalService.getOverdueRentals();
     }
 }

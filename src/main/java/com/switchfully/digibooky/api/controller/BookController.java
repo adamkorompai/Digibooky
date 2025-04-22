@@ -1,5 +1,6 @@
 package com.switchfully.digibooky.api.controller;
 
+import com.switchfully.digibooky.api.dtos.BookDetailsDto;
 import com.switchfully.digibooky.api.dtos.BookDto;
 import com.switchfully.digibooky.api.dtos.mapper.BookMapper;
 import com.switchfully.digibooky.service.BookService;
@@ -32,9 +33,9 @@ public class BookController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public BookDto getBookById(@PathVariable long id) {
+    public BookDetailsDto getBookById(@PathVariable long id) {
         logger.info("Request to get book by id {}", id);
-        return bookService.getBookById(id);
+        return bookService.getBookDetailsById(id);
     }
 
     @GetMapping("/search/isbn")

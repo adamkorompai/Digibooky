@@ -1,14 +1,17 @@
 package com.switchfully.digibooky.service;
 
+import com.switchfully.digibooky.api.dtos.BookDetailsDto;
 import com.switchfully.digibooky.api.dtos.BookDto;
 import com.switchfully.digibooky.api.dtos.mapper.BookMapper;
 import com.switchfully.digibooky.api.dtos.mapper.MemberMapper;
 import com.switchfully.digibooky.domain.Book;
+import com.switchfully.digibooky.exceptions.ResourcenNotFoundException;
 import com.switchfully.digibooky.repository.BookRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -31,13 +34,30 @@ public class BookService {
 
     public List<BookDto> getAllBooks() {
         logger.info("Getting all books");
-        return bookRepository.getAllBooks().stream().map(bookMapper::mapToBookDto).collect(Collectors.toList());
+        return bookRepository.getAllBooks()
+                .stream()
+                .filter(book -> book.getNumberOfCopy() != -1)
+                .map(bookMapper::mapToBookDto)
+                .collect(Collectors.toList());
     }
 
     public BookDto getBookById(long id) {
         logger.info("Getting book by id {}", id);
         Book book = bookRepository.getBookById(id);
+        if (book.getNumberOfCopy() == -1){
+            throw new ResourcenNotFoundException("This book has been deleted");
+        }
         BookDto bookDto = bookMapper.mapToBookDto(book);
+        return bookDto;
+    }
+
+    public BookDetailsDto getBookDetailsById(long id) {
+        logger.info("Getting book by id {}", id);
+        Book book = bookRepository.getBookById(id);
+        if (book.getNumberOfCopy() == -1) {
+            throw new ResourcenNotFoundException("This book has been deleted");
+        }
+        BookDetailsDto bookDto = bookMapper.mapToBookDetailsDto(book);
         return bookDto;
     }
 

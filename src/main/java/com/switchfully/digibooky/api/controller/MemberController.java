@@ -1,10 +1,7 @@
 package com.switchfully.digibooky.api.controller;
 
 
-import com.switchfully.digibooky.api.dtos.CreateMemberDto;
-import com.switchfully.digibooky.api.dtos.CreateRentalDto;
-import com.switchfully.digibooky.api.dtos.MemberDto;
-import com.switchfully.digibooky.api.dtos.RentalDto;
+import com.switchfully.digibooky.api.dtos.*;
 import com.switchfully.digibooky.service.MemberService;
 import com.switchfully.digibooky.service.RentalService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -60,5 +57,11 @@ public class MemberController {
         return rentalService.returnRent(rentId);
     }
 
+    @GetMapping(value = "/book/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public BookDetailsMemberDto getBookDetailsForMemberById(@PathVariable long  id) {
+        log.info("Request to get detailed book info for member by id {}", id);
+        return rentalService.getBookDetailsForMemberById(id);
+    }
 
 }
