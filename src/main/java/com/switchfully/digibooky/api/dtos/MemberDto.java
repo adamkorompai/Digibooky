@@ -13,26 +13,32 @@ public class MemberDto {
     private String streetName;
     private String streetNumber;
     private String city;
+    private String username;
+    private String password;
 
     private Role role;
     public MemberDto(){
         // JACKSON
     }
 
-    public MemberDto(String lastName, String firstName, String email){
+    public MemberDto(String lastName, String firstName, String email, String username, String password){
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
+        this.username = username;
+        this.password = password;
     }
 
-    public MemberDto( String lastName, String email, String city, Role role) {
+    public MemberDto( String lastName, String email, String city, Role role, String username, String password) {
         this.lastName = lastName;
         this.email = email;
         this.city = city;
         this.role = role;
+        this.username = username;
+        this.password = password;
     }
 
-    public MemberDto(String lastName, String firstName, String email, String streetName, String streetNumber, String city, Role role) {
+    public MemberDto(String lastName, String firstName, String email, String streetName, String streetNumber, String city, Role role, String username, String password) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.email = email;
@@ -40,35 +46,9 @@ public class MemberDto {
         this.streetNumber = streetNumber;
         this.city = city;
         this.role = role;
+        this.username = username;
+        this.password = password;
     }
-
-    public static MemberDto createAdmin( String lastName, String firstName, String email, String streetName, String streetNumber, String city, Role role) {
-        return new MemberDto(
-                lastName,
-                firstName,
-                email,
-                Role.ADMIN
-        );
-    }
-
-    public static MemberDto createLibrarian( String lastName, String firstName, String email, String streetName, String streetNumber, String city, Role role) {
-        return new MemberDto(
-                lastName,
-                firstName,
-                email,
-                Role.LIBRARIAN
-        );
-    }
-
-    public static MemberDto createMember( String lastName, String firstName, String email, String streetName, String streetNumber, String city, Role role) {
-        return new MemberDto(
-                lastName,
-                firstName,
-                email,
-                Role.MEMBER
-        );
-    }
-
 
 
     public String getLastName() {
@@ -81,6 +61,14 @@ public class MemberDto {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getStreetName() {

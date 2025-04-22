@@ -29,8 +29,10 @@ public class MemberService {
 
     public CreateMemberDto saveMember(CreateMemberDto createMemberDto) {
 
-        verification(createMemberDto);
+        validateMemberFormat(createMemberDto);
+        System.out.println(createMemberDto);
         Member member = mapper.DtoTo(createMemberDto);
+        System.out.println(member);
         repository.save(member);
 
         repository.getAllMembers().forEach((member1) -> {log.info(member1.toString());});
@@ -39,17 +41,13 @@ public class MemberService {
     }
 
     public MemberDto createAdmin(MemberDto memberDto) {
-        validateNoNullEmptyFields(memberDto.getEmail(), "Email is required");
-        validateEmailFormat(memberDto.getEmail());
-        validateNoNullEmptyFields(memberDto.getLastName(), "Last name is required");
+        validateAdminLibrarianFormat(memberDto);
         return repository.createAdmin(memberDto);
 
     }
 
     public MemberDto createLibrarian(MemberDto memberDto) {
-        validateNoNullEmptyFields(memberDto.getEmail(), "Email is required");
-        validateEmailFormat(memberDto.getEmail());
-        validateNoNullEmptyFields(memberDto.getLastName(), "Last name is required");
+        validateAdminLibrarianFormat(memberDto);
         return repository.createLibrarian(memberDto);
     }
 
@@ -58,11 +56,13 @@ public class MemberService {
         return members.stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
-    public void verification(CreateMemberDto createMemberDto) {
+    public void validateMemberFormat(CreateMemberDto createMemberDto) {
         validateNoNullEmptyFields(createMemberDto.getEmail(), "Email is required");
         validateEmailFormat(createMemberDto.getEmail());
         validateNoNullEmptyFields(createMemberDto.getLastName(), "Lat name  is required");
         validateNoNullEmptyFields(createMemberDto.getCity(), "City is required");
+        validateNoNullEmptyFields(createMemberDto.getUsername(), "Username is required");
+        validateNoNullEmptyFields(createMemberDto.getPassword(), "Password is required");
 
         if(repository.getAllInsses().contains(createMemberDto.getInss())) {
             throw new IllegalArgumentException("The given INSS is already in use");
@@ -70,7 +70,24 @@ public class MemberService {
         if(repository.getAllEmails().contains(createMemberDto.getEmail())) {
             throw new IllegalArgumentException("The given email is already in use");
         }
+        if(repository.getAllUsernames().contains(createMemberDto.getUsername())) {
+            throw new IllegalArgumentException("The given username is already in use");
+        }
 
+    }
+
+    private void validateAdminLibrarianFormat(MemberDto memberDto) {
+        validateNoNullEmptyFields(memberDto.getEmail(), "Email is required");
+        validateEmailFormat(memberDto.getEmail());
+        validateNoNullEmptyFields(memberDto.getLastName(), "Last name is required");
+        validateNoNullEmptyFields(memberDto.getUsername(), "Username is required");
+        validateNoNullEmptyFields(memberDto.getPassword(), "Password is required");
+        if(repository.getAllEmails().contains(memberDto.getEmail())) {
+            throw new IllegalArgumentException("The given email is already in use");
+        }
+        if(repository.getAllUsernames().contains(memberDto.getUsername())) {
+            throw new IllegalArgumentException("The given username is already in use");
+        }
     }
 
     private void validateEmailFormat(String email) {
