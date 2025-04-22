@@ -17,7 +17,7 @@ public class MemberMapperTest {
 
     @Test
     public void mapToMemberDto_shouldConvertToMemberDtoCorrectly() {
-        Member member = new Member("951014-523-12","Lisa","Simpson","lisa_simpson@hotmail.com","Evergreen Terrace","742","Springfield", Role.MEMBER);
+        Member member = new Member("951014-523-12","Lisa","Simpson","lisa_simpson@hotmail.com","Evergreen Terrace","742","Springfield", Role.MEMBER, "usrename", "password");
         MemberDto result = memberMapper.toDto(member);
 
         assertThat(result).isNotNull();
@@ -31,7 +31,7 @@ public class MemberMapperTest {
 
     @Test
     public void mapDtoToMember_shouldConvertDtoToMemberCorrectly() {
-        CreateMemberDto dto = new CreateMemberDto("951014-523-12","Lisa","Simpson","lisa_simpson@hotmail.com","Evergreen Terrace","742","Springfield", Role.MEMBER);
+        CreateMemberDto dto = new CreateMemberDto("951014-523-12","Lisa","Simpson","lisa_simpson@hotmail.com","Evergreen Terrace","742","Springfield", Role.MEMBER, "usrename", "password");
         Member result = memberMapper.DtoTo(dto);
 
         assertThat(result).isNotNull();

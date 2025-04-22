@@ -49,7 +49,7 @@ public class MemberRepositoryTest {
     @Test
     public void whenCreatingAdmin_AdminIsAdded(){
         int size = memberRepository.getAllMembers().stream().filter(member -> member.getRole().equals(Role.ADMIN)).toList().size();
-        memberRepository.createAdmin(new MemberDto("admin", "admin", "admin@admin.admin"));
+        memberRepository.createAdmin(new MemberDto("admin", "admin", "admin@admin.admin", "admin", "admin"));
         int new_size = memberRepository.getAllMembers().stream().filter(member -> member.getRole().equals(Role.ADMIN)).toList().size();
         assertEquals(size + 1, new_size);
     }
@@ -57,7 +57,7 @@ public class MemberRepositoryTest {
     @Test
     public void whenCreatingLibrarian_LibrarianIsAdded(){
         int size = memberRepository.getAllMembers().stream().filter(member -> member.getRole().equals(Role.LIBRARIAN)).toList().size();
-        memberRepository.createLibrarian(new MemberDto("Librarian", "Librarian", "Librarian@Librarian.Librarian"));
+        memberRepository.createLibrarian(new MemberDto("Librarian", "Librarian", "Librarian@Librarian.Librarian","librarian", "librarian"));
         int new_size = memberRepository.getAllMembers().stream().filter(member -> member.getRole().equals(Role.LIBRARIAN)).toList().size();
         assertEquals(size + 1, new_size);
     }

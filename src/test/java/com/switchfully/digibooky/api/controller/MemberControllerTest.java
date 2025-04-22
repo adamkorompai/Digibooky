@@ -44,7 +44,9 @@ public class MemberControllerTest {
                 "951014-523-14",
                 "Lisa",
                 "lisax_simpson@hotmail.com",
-                "Springfield"
+                "Springfield",
+                "username",
+                "password"
         );
 
         given()
@@ -81,7 +83,9 @@ public class MemberControllerTest {
         MemberDto dto = new MemberDto(
                 "951014-523-14",
                 "Lisa",
-                "lisax_simpson@hotmail.com"
+                "lisaxx_simpson@hotmail.com",
+                "username200",
+                "password"
         );
         memberService.createAdmin(dto);
 
@@ -93,7 +97,7 @@ public class MemberControllerTest {
                 .contentType("application/json")
                 .when()
                 .body(dto)
-                .post("/digibooky/members/admin")
+                .post("/digibooky/admin")
                 .then()
                 .statusCode(201);
 
