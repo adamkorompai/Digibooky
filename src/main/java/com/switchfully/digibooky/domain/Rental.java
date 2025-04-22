@@ -74,6 +74,8 @@ public class Rental {
         return dueDate;
     }
 
+    public LocalDate getReturnedDate() { return returnedDate; }
+
     public static long getNextId() {
         return nextId;
     }

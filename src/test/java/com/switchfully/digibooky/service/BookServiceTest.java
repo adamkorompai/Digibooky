@@ -2,6 +2,7 @@ package com.switchfully.digibooky.service;
 
 
 import com.switchfully.digibooky.api.dtos.AuthorDto;
+import com.switchfully.digibooky.api.dtos.BookDetailsDto;
 import com.switchfully.digibooky.api.dtos.BookDto;
 import com.switchfully.digibooky.api.dtos.mapper.BookMapper;
 import com.switchfully.digibooky.api.dtos.mapper.MemberMapper;
@@ -48,7 +49,7 @@ public class BookServiceTest {
     @Test
     void getBookById_ShouldReturnBook() {
         long id = 1;
-        BookDto result = bookService.getBookById(id);
+        BookDetailsDto result = bookService.getBookDetailsById(id);
 
         assertNotNull(result);
         assertEquals(bookRepository.getAllBooks().get(0).getIsbn(), result.getIsbn());
