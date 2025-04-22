@@ -16,7 +16,9 @@ public class MemberMapper {
                 member.getStreetName(),
                 member.getStreetNumber(),
                 member.getCity(),
-                member.getRole()
+                member.getRole(),
+                member.getUsername(),
+                member.getPassword()
         );
     }
 
@@ -29,7 +31,9 @@ public class MemberMapper {
                 createMemberDto.getStreetName(),
                 createMemberDto.getStreetNumber(),
                 createMemberDto.getCity(),
-                createMemberDto.getRole()
+                createMemberDto.getRole(),
+                createMemberDto.getUsername(),
+                createMemberDto.getPassword()
         );
     }
 }

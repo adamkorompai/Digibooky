@@ -10,16 +10,17 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Repository
 public class RentalRepository {
-    private final ConcurrentHashMap<String, Rental> rentals;
+    private final HashMap<String, Rental> rentals;
+  
     public RentalRepository() {
-        rentals = new ConcurrentHashMap<>();
-        initializeTestData();
-
+         rentals = new HashMap<>();
+         initializeTestData();
     }
 
     public Rental addRental(Rental rental) {
@@ -28,6 +29,10 @@ public class RentalRepository {
 
     public Rental getRental(String id) {
         return rentals.get(id);
+    }
+  
+    public HashMap<String, Rental> getRentals() {
+          return rentals;
     }
 
     public Rental getActiveRentalByIsbn(String isbn) {
@@ -121,4 +126,5 @@ public class RentalRepository {
                 LocalDate.now().minusDays(15)
         ));
     }
+  
 }

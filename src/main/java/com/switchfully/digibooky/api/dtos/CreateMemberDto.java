@@ -11,21 +11,25 @@ public class CreateMemberDto {
     private String streetName;
     private String streetNumber;
     private String city;//Is required
+    private String username;
+    private String password;
 
     private Role role = Role.MEMBER;
 
     CreateMemberDto() {
     }
 
-    public CreateMemberDto(String inss, String lastName, String email, String city) {
+    public CreateMemberDto(String inss, String lastName, String email, String city, String username, String password) {
         this.inss = inss;
         this.lastName = lastName;
         this.email = email;
         this.city = city;
         this.role = Role.MEMBER;
+        this.username = username;
+        this.password = password;
     }
 
-    public CreateMemberDto(String inss, String lastName, String firstName, String email, String streetName, String streetNumber, String city, Role role) {
+    public CreateMemberDto(String inss, String lastName, String firstName, String email, String streetName, String streetNumber, String city, Role role, String username, String password) {
         this.inss = inss;
         this.lastName = lastName;
         this.firstName = firstName;
@@ -34,6 +38,8 @@ public class CreateMemberDto {
         this.streetNumber = streetNumber;
         this.city = city;
         this.role = Role.MEMBER;
+        this.username = username;
+        this.password = password;
     }
 
     public String getInss() {
@@ -66,6 +72,14 @@ public class CreateMemberDto {
 
     public Role getRole() {
         return role;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     @Override

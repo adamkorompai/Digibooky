@@ -101,6 +101,7 @@ public class BookRepositoryTest {
         assertEquals("Harry Potter and the Philosopher's Stone", books.get(0).getTitle());
     }
 
+    @Test
     void searchBooksByAuthor_withFirstName_shouldReturnMatchingBooks() {
         String authorPattern = "George";
 

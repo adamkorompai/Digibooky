@@ -32,19 +32,19 @@ public class LibrarianController {
         this.rentalService = rentalService;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/books",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public BookDto createBook(@RequestBody BookDto bookDto) {
         return bookService.createBook(bookDto);
     }
 
-    @PutMapping(path="/{isbn}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path="/books/{isbn}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public BookDto updateBook(@PathVariable("isbn") String isbn, @RequestBody BookDto bookDto) {
         return bookService.updateBook(isbn, bookDto);
     }
 
-    @DeleteMapping(path="/{isbn}")
+    @DeleteMapping(path="/books/{isbn}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBook(@PathVariable("isbn") String isbn) {
         bookService.deleteBook(isbn);

@@ -1,25 +1,21 @@
-package com.switchfully.digibooky;
+package com.switchfully.digibooky.service;
 
 import com.switchfully.digibooky.api.dtos.CreateMemberDto;
 import com.switchfully.digibooky.api.dtos.mapper.MemberMapper;
 import com.switchfully.digibooky.domain.Member;
 import com.switchfully.digibooky.domain.Role;
 import com.switchfully.digibooky.repository.MemberRepository;
-import com.switchfully.digibooky.service.MemberService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
-public class MemberTest {
+public class MemberServiceTest {
 
-    private static final Logger log = LoggerFactory.getLogger(MemberTest.class);
+    private static final Logger log = LoggerFactory.getLogger(MemberServiceTest.class);
     private MemberRepository memberRepository;
     private MemberService memberService;
     private MemberMapper memberMapper;
@@ -29,7 +25,9 @@ public class MemberTest {
             "Jack",
             "Sparrow",
             "Brussels",
-            Role.MEMBER
+            Role.MEMBER,
+            "user1",
+            "password1"
     );
 
     @BeforeEach
@@ -56,7 +54,9 @@ public class MemberTest {
                 member.getINSS(),
                 "Jack",
                 "mehdi_sellam@hotmail.com",
-                "Brussels"
+                "Brussels",
+                "user2",
+                "password1"
         );
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -79,7 +79,9 @@ public class MemberTest {
                 "741223-558-34",
                 "Jack",
                 member.getEmail(),
-                "Brussels"
+                "Brussels",
+                "user3",
+                "password1"
         );
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -99,7 +101,9 @@ public class MemberTest {
                 "741223-558-34",
                 "Jack",
                 "Jack_Sparrow@hotmail.com",
-                "Brussels"
+                "Brussels",
+                "user4",
+                "password1"
         );
         memberService.saveMember(dtoCreated);
         Member member = getLastMemberAdded();
@@ -119,7 +123,9 @@ public class MemberTest {
                 "741223-558-34",
                 "Jack",
                 null,
-                "Brussels"
+                "Brussels",
+                "user5",
+                "password1"
         );
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             memberService.saveMember(dtoCreated);
@@ -137,7 +143,9 @@ public class MemberTest {
                 "741223-558-34",
                 null,
                 "Jack_Sparrow@Hotmail.com",
-                "Brussels"
+                "Brussels",
+                "user6",
+                "password2"
         );
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             memberService.saveMember(dtoCreated);
@@ -156,7 +164,9 @@ public class MemberTest {
                 "741223-558-34",
                 "Jack",
                 "Jack_Sparrow@Hotmail.com",
-                null
+                null,
+                "user7",
+                "password1"
         );
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             memberService.saveMember(dtoCreated);

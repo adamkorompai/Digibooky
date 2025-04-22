@@ -42,30 +42,7 @@ public class MemberController {
         //System.out.println(Arrays.toString(request.getHeader("Authorization").replace("Basic ", "").split(":")));
         return memberService.saveMember(createMemberDto);
     }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-
-    public List<MemberDto> getAllMember() {
-
-        log.info("Inside getAllMember");
-        return memberService.getAllMember();
-    }
-
-    @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public MemberDto createAdmin(@RequestBody MemberDto memberDto) {
-        log.info("Inside createAdmin" + memberDto);
-        return memberService.createAdmin(memberDto);
-    }
-
-    @PostMapping(value = "/librarian", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public MemberDto createLibrarian(@RequestBody MemberDto memberDto) {
-        log.info("Inside createLibrarian" + memberDto);
-        return memberService.createLibrarian(memberDto);
-    }
-
+    
     // This is an Only member feature that's
     @PostMapping(value = "/rent",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
