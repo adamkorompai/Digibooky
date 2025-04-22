@@ -68,7 +68,6 @@ public class BookService {
     }
 
     public BookDto updateBook(String isbn, BookDto bookDto) {
-        logger.info("Updating book {}", bookDto.getIsbn());
         Book book = bookRepository.getBookByIsbn(isbn);
         if (book == null) {
             throw new IllegalArgumentException("There is no book with this ISBN in the database");

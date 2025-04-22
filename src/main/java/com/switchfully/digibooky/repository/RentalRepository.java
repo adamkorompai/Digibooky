@@ -5,13 +5,14 @@ import com.switchfully.digibooky.domain.Rental;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
 public class RentalRepository {
-    private final ConcurrentHashMap<String, Rental> rentals;
+    private final HashMap<String, Rental> rentals;
     public RentalRepository() {
-        rentals = new ConcurrentHashMap<>();
+        rentals = new HashMap<>();
 
     }
 
@@ -21,5 +22,9 @@ public class RentalRepository {
 
     public Rental getRental(String id) {
         return rentals.get(id);
+    }
+
+    public HashMap<String, Rental> getRentals() {
+        return rentals;
     }
 }

@@ -10,12 +10,12 @@ import java.time.LocalDate;
 @Component
 public class RentalMapper {
 
-    public Rental map(CreateRentalDto rental, LocalDate rentalDate) {
+    public Rental map(CreateRentalDto rental, LocalDate returnDate) {
         return new Rental(
                 rental.getBookIsbn(),
                 rental.getUserId(),
                 rental.getRentDate(),
-                rentalDate
+                returnDate
         );
     }
 

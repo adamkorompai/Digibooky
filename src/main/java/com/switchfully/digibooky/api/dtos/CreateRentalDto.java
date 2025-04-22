@@ -23,5 +23,15 @@ public class CreateRentalDto {
         return rentDate;
     }
 
+    public void setBookIsbn(String bookIsbn) {
+        this.bookIsbn = bookIsbn;
+    }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setRentDate(LocalDate rentDate) {
+        this.rentDate = rentDate;
+    }
 }

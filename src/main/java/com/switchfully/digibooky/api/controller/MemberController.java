@@ -48,13 +48,13 @@ public class MemberController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-
     public List<MemberDto> getAllMember() {
 
         log.info("Inside getAllMember");
         return memberService.getAllMember();
     }
 
+    //TODO : MemberDto => CreateMemberDto et check if it was an admin that has been sent
     @PostMapping(value = "/admin", consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public MemberDto createAdmin(@RequestBody MemberDto memberDto) {
