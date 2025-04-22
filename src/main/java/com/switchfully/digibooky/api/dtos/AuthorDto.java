@@ -40,4 +40,12 @@ public class AuthorDto {
     public int hashCode() {
         return Objects.hash(firstname, lastname);
     }
+
+    @Override
+    public String toString() {
+        return "AuthorDto{" +
+                "firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                '}';
+    }
 }

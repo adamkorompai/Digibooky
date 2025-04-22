@@ -21,11 +21,11 @@ import java.util.stream.Collectors;
 public class MemberRepository {
 
     private static final Logger log = LoggerFactory.getLogger(MemberRepository.class);
-    private final ConcurrentHashMap<String, Member> members;
+    private final HashMap<String, Member> members;
     private final MemberMapper memberMapper;
 
     public MemberRepository(MemberMapper memberMapper) {
-        members = new ConcurrentHashMap<>();
+        members = new HashMap<>();
         addAdmin();
         initializeData();
         this.memberMapper = memberMapper;

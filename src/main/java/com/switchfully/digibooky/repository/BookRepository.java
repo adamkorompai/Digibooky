@@ -2,6 +2,8 @@ package com.switchfully.digibooky.repository;
 
 import com.switchfully.digibooky.domain.Author;
 import com.switchfully.digibooky.domain.Book;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -10,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class BookRepository {
+    private static final Logger log = LoggerFactory.getLogger(BookRepository.class);
     private final Map<Long, Book> bookDatabase;
 
     public BookRepository() {
@@ -43,7 +46,13 @@ public class BookRepository {
     }
 
     public Book getBookByIsbn(String isbn) {
-        return bookDatabase.values().stream().filter(book -> book.getIsbn().equals(isbn)).findFirst().orElse(null);
+        log.info("Searching for book with isbn {}", isbn);
+        Book book = bookDatabase.values().stream().filter(bk -> {
+            System.out.println(bk.getIsbn());
+            return bk.getIsbn().equals(isbn);
+        }).findFirst().orElse(null);
+        log.info("book Value : " + book);
+        return book;
     }
 
     public List<Book> searchBooksByIsbn(String isbn) {
@@ -77,4 +86,6 @@ public class BookRepository {
                 })
                 .collect(Collectors.toList());
     }
+
+
 }

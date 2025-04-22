@@ -45,7 +45,7 @@ public class MemberController {
         //System.out.println(Arrays.toString(request.getHeader("Authorization").replace("Basic ", "").split(":")));
         return memberService.saveMember(createMemberDto);
     }
-
+    
     // This is an Only member feature that's
     @PostMapping(value = "/rent",produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
