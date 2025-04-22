@@ -56,9 +56,12 @@ public class RentalService {
         Book book = books.getBookByIsbn(rentalDto.getBookIsbn());
         Member member = members.getMember(rentalDto.getUserId());
 
-        if (book.getNumberOfCopy() == -1) {
+        if (book.getNumberOfCopy() == 0) {
             throw new ResourcenNotFoundException("No copy available");
+        } else if (book.getNumberOfCopy() == -1 ) {
+            throw new ResourcenNotFoundException("This book is deleted");
         }
+
         bookRepository.removeCopyOfBook(book.getId());
         Rental rental = rentalMapper.map(rentalDto,getReturnDate(rentalDto.getRentDate()));
 

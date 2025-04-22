@@ -45,7 +45,7 @@ public class BookService {
         logger.info("Getting book by id {}", id);
         Book book = bookRepository.getBookById(id);
         if (book.getNumberOfCopy() == -1){
-            throw new ResourcenNotFoundException("No copy of book with id " + id + " found");
+            throw new ResourcenNotFoundException("This book has been deleted");
         }
         BookDto bookDto = bookMapper.mapToBookDto(book);
         return bookDto;
@@ -55,7 +55,7 @@ public class BookService {
         logger.info("Getting book by id {}", id);
         Book book = bookRepository.getBookById(id);
         if (book.getNumberOfCopy() == -1) {
-            throw new ResourcenNotFoundException("No copy of this book found");
+            throw new ResourcenNotFoundException("This book has been deleted");
         }
         BookDetailsDto bookDto = bookMapper.mapToBookDetailsDto(book);
         return bookDto;

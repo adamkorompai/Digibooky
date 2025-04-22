@@ -21,7 +21,7 @@ public class BookRepository {
         Author author1 = new Author("Jane", "Doe");
         Author author2 = new Author("John", "Doe");
 
-        Book book1 = new Book("978-1-23-456789-7", author1, "The Great Adventure" , "A thrilling adventure story.",-1);
+        Book book1 = new Book("978-1-23-456789-7", author1, "The Great Adventure" , "A thrilling adventure story.",0);
         Book book2 = new Book("978-9-87-654321-0", author1, "Mystery of the Old Manor", "A mysterious tale of an old manor.",3);
         Book book3 = new Book("978-0-12-345678-9", author2, "Programming Basics" ,"Learn programming fundamentals.",4);
 
@@ -48,12 +48,9 @@ public class BookRepository {
 
     public void removeCopyOfBook(long bookId) {
         Book book = bookDatabase.get(bookId);
-        if (book != null) {
+        if (book != null ) {
             int currentCopies = book.getNumberOfCopy();
             book.setNumberOfCopy(currentCopies - 1);
-            if (book.getNumberOfCopy() == 0){
-                book.setNumberOfCopy(-1);
-            }
         }
     }
 
