@@ -2,11 +2,9 @@ package com.switchfully.digibooky.service;
 
 
 import com.switchfully.digibooky.api.dtos.AuthorDto;
-import com.switchfully.digibooky.api.dtos.BookDetailsDto;
 import com.switchfully.digibooky.api.dtos.BookDto;
 import com.switchfully.digibooky.api.dtos.mapper.BookMapper;
 import com.switchfully.digibooky.api.dtos.mapper.MemberMapper;
-import com.switchfully.digibooky.domain.Author;
 import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.repository.BookRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,7 +47,7 @@ public class BookServiceTest {
     @Test
     void getBookById_ShouldReturnBook() {
         long id = 1;
-        BookDetailsDto result = bookService.getBookDetailsById(id);
+        BookDto result = bookService.getBookById(id);
 
         assertNotNull(result);
         assertEquals(bookRepository.getAllBooks().get(0).getIsbn(), result.getIsbn());

@@ -47,21 +47,6 @@ public class BookMapperTest {
         assertThat(result.getAuthor().getLastname()).isEqualTo("Doe");
     }
 
-    @Test
-    public void mapToBookDetailsDto_shouldConvertToBookDetailsDtoCorrectly() {
-        Author author = new Author("John", "Doe");
-        Book book = new Book("9781234567897", author, "Test book","A summary", 2);
-
-        BookDetailsDto result = bookMapper.mapToBookDetailsDto(book);
-
-        assertThat(result).isNotNull();
-        assertThat(result.getIsbn()).isEqualTo("9781234567897");
-        assertThat(result.getTitle()).isEqualTo("Test book");
-        assertThat(result.getSummary()).isEqualTo("A summary");
-        assertThat(result.getAuthor()).isNotNull();
-        assertThat(result.getAuthor().getFirstname()).isEqualTo("John");
-        assertThat(result.getAuthor().getLastname()).isEqualTo("Doe");
-    }
 
     @Test
     public void mapToBookDetailsMemberDto_whenBookIsNotBorrowed_shouldSetBorrowedFalseAndNullUserId() {
