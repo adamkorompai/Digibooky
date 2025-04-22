@@ -82,6 +82,9 @@ public class MemberService {
         validateNoNullEmptyFields(memberDto.getLastName(), "Last name is required");
         validateNoNullEmptyFields(memberDto.getUsername(), "Username is required");
         validateNoNullEmptyFields(memberDto.getPassword(), "Password is required");
+        if(repository.getAllEmails().contains(memberDto.getEmail())) {
+            throw new IllegalArgumentException("The given email is already in use");
+        }
         if(repository.getAllUsernames().contains(memberDto.getUsername())) {
             throw new IllegalArgumentException("The given username is already in use");
         }
