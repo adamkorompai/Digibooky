@@ -1,7 +1,6 @@
 package com.switchfully.digibooky.api.dtos.mapper;
 
 import com.switchfully.digibooky.api.dtos.AuthorDto;
-import com.switchfully.digibooky.api.dtos.BookDetailsDto;
 import com.switchfully.digibooky.api.dtos.BookDetailsMemberDto;
 import com.switchfully.digibooky.api.dtos.BookDto;
 import com.switchfully.digibooky.domain.Author;
@@ -42,16 +41,10 @@ public class BookMapper {
                 .map(this::mapToBookDto).collect(Collectors.toList());
     }
 
-    public BookDetailsDto mapToBookDetailsDto(Book book) {
-        AuthorDto authorDto = mapToAuthorDto(book.getAuthor());
-
-        return new BookDetailsDto(book.getIsbn(), book.getTitle(), authorDto, book.getSummary());
-    }
-
     public BookDetailsMemberDto mapToBookDetailsMemberDto(BookDto book, Rental rental) {
         boolean isBorrowed = rental != null && rental.getRentalState() == RentalState.IN_RENT;
         String borrowedByUserId =  isBorrowed ? rental.getUserId() : null;
 
-        return new BookDetailsMemberDto(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getSummary(), isBorrowed, borrowedByUserId);
+        return new BookDetailsMemberDto(book.getIsbn(), book.getTitle(), book.getAuthor(), book.getSummary(), book.getNumberOfCopy(), isBorrowed, borrowedByUserId);
     }
 }

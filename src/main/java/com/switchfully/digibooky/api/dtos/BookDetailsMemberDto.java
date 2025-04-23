@@ -5,14 +5,16 @@ public class BookDetailsMemberDto {
     private String title;
     private AuthorDto author;
     private String summary;
+    private int numberOfCopy;
     private boolean isBorrowed;
     private String borrowedByUserId; // can be null if not borrowed
 
-    public BookDetailsMemberDto(String isbn, String title, AuthorDto author, String summary, boolean isBorrowed, String borrowedByUserId) {
+    public BookDetailsMemberDto(String isbn, String title, AuthorDto author, String summary, int numberOfCopy, boolean isBorrowed, String borrowedByUserId) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
         this.summary = summary;
+        this.numberOfCopy = numberOfCopy;
         this.isBorrowed = isBorrowed;
         this.borrowedByUserId = borrowedByUserId;
     }
@@ -40,4 +42,6 @@ public class BookDetailsMemberDto {
     public String getBorrowedByUserId() {
         return borrowedByUserId;
     }
+
+    public int getNumberOfCopy() { return numberOfCopy; }
 }

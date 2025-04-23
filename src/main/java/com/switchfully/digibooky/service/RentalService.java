@@ -32,18 +32,16 @@ public class RentalService {
     private final RentalRepository rentalRepository;
 
     private static final int MAX_WEEK_RETURN = 3;
-    private final BookRepository bookRepository;
     private final BookService bookService;
     private final BookMapper bookMapper;
 
     @Autowired
-    public RentalService(RentalRepository rentals, RentalMapper rentalMapper, MemberRepository members, BookRepository books, RentalRepository rentalRepository, BookRepository bookRepository, BookService bookService, BookMapper bookMapper) {
+    public RentalService(RentalRepository rentals, RentalMapper rentalMapper, MemberRepository members, BookRepository books, RentalRepository rentalRepository, BookService bookService, BookMapper bookMapper) {
         this.rentals = rentals;
         this.rentalMapper = rentalMapper;
         this.members = members;
         this.books = books;
         this.rentalRepository = rentalRepository;
-        this.bookRepository = bookRepository;
         this.bookService = bookService;
         this.bookMapper = bookMapper;
     }
@@ -70,8 +68,8 @@ public class RentalService {
             throw new ResourcenNotFoundException("This book is deleted");
         }
 
+        books.removeCopyOfBook(book.getId());
 
-        bookRepository.removeCopyOfBook(book.getId());
         Rental rental = rentalMapper.map(rentalDto,getReturnDate(rentalDto.getRentDate()));
 
         rental = rentalRepository.addRental(rental);

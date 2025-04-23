@@ -1,83 +1,88 @@
 package com.switchfully.digibooky.service;
 
+import com.switchfully.digibooky.api.dtos.BookDetailsMemberDto;
+import com.switchfully.digibooky.api.dtos.BookDto;
+import com.switchfully.digibooky.api.dtos.CreateRentalDto;
 import com.switchfully.digibooky.api.dtos.RentalDto;
+import com.switchfully.digibooky.api.dtos.mapper.BookMapper;
+import com.switchfully.digibooky.api.dtos.mapper.MemberMapper;
 import com.switchfully.digibooky.api.dtos.mapper.RentalMapper;
+import com.switchfully.digibooky.domain.*;
+import com.switchfully.digibooky.repository.BookRepository;
+import com.switchfully.digibooky.repository.MemberRepository;
 import com.switchfully.digibooky.repository.RentalRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 
-import static io.restassured.RestAssured.when;
+import java.time.LocalDate;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 public class RentalServiceTest {
-
-    @MockitoBean
     private RentalService rentalService;
-    @MockitoBean
     private RentalRepository rentalRepository;
-    @MockitoBean
+    private MemberRepository memberRepository;
+    private BookService bookService;
     private RentalMapper rentalMapper;
+    private BookMapper bookMapper;
+    private MemberMapper memberMapper;
+    private BookRepository bookRepository;
 
-    //Todo : CreateRental => Should be created
+    private Book testBook;
+    private Member testMember;
+    private Rental testRental;
+    private String testBookIsbn;
+    private CreateRentalDto testCreateRentalDto;
 
-    @Test
-    public void whenServiceCreateRental_thenRentalCreated() {
+    @BeforeEach
+    void setUp() {
+        memberMapper = new MemberMapper();
+        memberRepository = new MemberRepository(memberMapper);
+        bookRepository = new BookRepository();
+        bookMapper = new BookMapper();
+        rentalMapper = new RentalMapper();
+        bookService = new BookService(bookRepository, bookMapper, memberMapper);
+        rentalRepository = new RentalRepository();
+        rentalService = new RentalService(rentalRepository, rentalMapper,memberRepository,bookRepository, rentalRepository, bookService, bookMapper);
 
+        testBookIsbn = "9781234567890";
+        Author testAuthor = new Author("John", "Doe");
 
+        testBook = new Book(testBookIsbn, testAuthor,"Test title", "a little story", 1);
+        bookRepository.saveBook(testBook);
 
+        testMember = new Member("kor", "adam", "a@g.com", Role.MEMBER, "adama", "password");
+        memberRepository.save(testMember);
+
+        testCreateRentalDto = new CreateRentalDto();
+        testCreateRentalDto.setUserId(testMember.getId());
+        testCreateRentalDto.setBookIsbn(testBookIsbn);
+        testCreateRentalDto.setRentDate(LocalDate.now());
+
+        testRental = new Rental(testBookIsbn, testMember.getId(), LocalDate.now(), LocalDate.now().plusWeeks(3));
+
+        rentalRepository = new RentalRepository();
     }
 
-    // Book must exist or Illegal Argument
     @Test
-    public void whenBookIsNull_thenThrowException() {}
+    void createRent_WithAvailableBook_CreatesRental() {
 
-    @Test
-    public void whenBookIsEmpty_thenThrowException() {}
+        CreateRentalDto result = rentalService.createRent(testCreateRentalDto);
 
+        assertEquals(testCreateRentalDto, result);
+        assertEquals(0, testBook.getNumberOfCopy());
 
-    // User must Exist or Illegal Argument
-    @Test
-    public void whenUserIsNull_thenThrowException() {}
-
-    @Test
-    public void whenUserIsEmpty_thenThrowException() {}
-
-    // BookCopy should be positive and superior to 0
-
-    @Test
-    public void whenRenting_givingNumberOfBooksCopyMinus1_ThenRentalNotRented() {}
-
-    @Test
-    public void whenRenting_givingNumberOfBooksCopy0_ThenRentalNotRented() {}
-
-
-    // Test remove copy of book when rent is created
-
-    @Test
-    public void whenRenting_numberOfBooksDecrease() {}
-
-
-    // Due date is created 3 Weeks after rentalDate
-
-    @Test
-    public void whenRenting_DueDateMustBe3WeeksAfterRentalDate() {}
-
-
-    // Todo : Return Rent => Rent should have a returnDate and have the state is Returned
-
-    @Test
-    public void whenReturnig_thenRentHaveReturnDate_AndStateChange() {}
-
-    //  Should send a message Because Rent is late
-
-    @Test
-    public void whenReturnigIsLate_thenMessage() {}
-    @Test
-    public void whenReturnigNotLate_thenNoMessage() {}
-
-    //  adding a Copy of books
-
-    @Test
-    public void whenReturning_numberOfBooksIncrease() {}
+        List<Rental> userRentals = rentalRepository.getRentalsByUserId(testMember.getId());
+        assertFalse(userRentals.isEmpty());
+        assertEquals(testBookIsbn, userRentals.get(0).getBookIsbn());
+    }
 
 }
