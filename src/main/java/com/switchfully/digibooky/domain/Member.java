@@ -136,13 +136,16 @@ public class Member {
     public String toString() {
         return "Member{" +
                 "id='" + id + '\'' +
+                ", INSS='" + INSS + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", email='" + email + '\'' +
                 ", streetName='" + streetName + '\'' +
                 ", streetNumber='" + streetNumber + '\'' +
                 ", city='" + city + '\'' +
-                "role= " +role +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
                 '}';
     }
 }

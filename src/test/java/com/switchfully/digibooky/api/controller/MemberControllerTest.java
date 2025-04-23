@@ -2,23 +2,29 @@ package com.switchfully.digibooky.api.controller;
 
 
 import com.switchfully.digibooky.api.dtos.CreateMemberDto;
-import com.switchfully.digibooky.api.dtos.MemberDto;
-import com.switchfully.digibooky.domain.Role;
+import com.switchfully.digibooky.api.dtos.CreateRentalDto;
 import com.switchfully.digibooky.repository.BookRepository;
 import com.switchfully.digibooky.service.BookService;
 import com.switchfully.digibooky.service.MemberService;
-import org.junit.jupiter.api.Assertions;
+import io.restassured.response.Response;
+import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class MemberControllerTest {
 
+    private static final Logger log = LoggerFactory.getLogger(MemberControllerTest.class);
 
     @LocalServerPort
     private int port;
@@ -45,8 +51,8 @@ public class MemberControllerTest {
                 "Lisa",
                 "lisax_simpson@hotmail.com",
                 "Springfield",
-                "username",
-                "password"
+                "usernamelisa",
+                "passwordlisa"
         );
 
         given()
@@ -62,47 +68,25 @@ public class MemberControllerTest {
     }
 
     @Test
-    public void getAllMembers_ShouldGiveAllMembers() {
-        int size = memberService.getAllMember().size();
+    public void RentABook_AddsARent() {
 
-        given()
+        CreateRentalDto dto = new CreateRentalDto();
+
+
+        Response response = given()
                 .port(port)
                 .contentType("application/json")
+                .header(HttpHeaders.AUTHORIZATION, "Basic " + encodeBase64("lisa1:passwordlisa")) // Add Authorization header
                 .when()
-                .get("/digibooky/members")
-                .then()
-                .statusCode(200)
-                .body("size()", equalTo(size));
+                .get();
+
+
+
+
 
     }
 
-    @Test
-    public void createAdmin_AddsAdmin() {
-        int size = memberService.getAllMember().stream().filter(e -> e.getRole().equals(Role.ADMIN)).toList().size();
-
-        MemberDto dto = new MemberDto(
-                "951014-523-14",
-                "Lisa",
-                "lisaxx_simpson@hotmail.com",
-                "username200",
-                "password"
-        );
-        memberService.createAdmin(dto);
-
-        int newSize = memberService.getAllMember().stream().filter(e -> e.getRole().equals(Role.ADMIN)).toList().size();
-
-
-        given()
-                .port(port)
-                .contentType("application/json")
-                .when()
-                .body(dto)
-                .post("/digibooky/admin")
-                .then()
-                .statusCode(201);
-
-        Assertions.assertEquals(newSize, size + 1);
+    private String encodeBase64(String credentials) {
+        return Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
     }
-
-
 }

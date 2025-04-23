@@ -8,6 +8,7 @@ import com.switchfully.digibooky.domain.Author;
 import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.repository.BookRepository;
 import com.switchfully.digibooky.service.BookService;
+import org.apache.http.HttpHeaders;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.server.LocalServerPort;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -63,6 +67,7 @@ public class LibrarianControllerTest {
         given()
                 .port(port)
                 .contentType("application/json")
+                .header(HttpHeaders.AUTHORIZATION, "Basic " + encodeBase64("gadalf1:passwordgadalf")) // Add Authorization header
                 .when()
                 .body(bookDto)
                 .post("/digibooky/librarian/books")
@@ -87,6 +92,7 @@ public class LibrarianControllerTest {
         given()
                 .port(port)
                 .contentType("application/json")
+                .header(HttpHeaders.AUTHORIZATION, "Basic " + encodeBase64("gadalf1:passwordgadalf")) // Add Authorization header
                 .when()
                 .body(dto)
                 .put("/digibooky/librarian/books/{isbn}", isbn)
@@ -107,14 +113,18 @@ public class LibrarianControllerTest {
         given()
                 .port(port)
                 .contentType("application/json")
+                .header(HttpHeaders.AUTHORIZATION, "Basic " + encodeBase64("gadalf1:passwordgadalf")) // Add Authorization header
                 .when()
-
                 .delete("/digibooky/librarian/books/{isbn}", isbn)
                 .then()
                 .statusCode(204);
 
         assertEquals(4, bookRepository.getAllBooks().size());
 
+    }
+
+    private String encodeBase64(String credentials) {
+        return Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
     }
 
 }

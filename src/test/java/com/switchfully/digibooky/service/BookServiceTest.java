@@ -7,15 +7,17 @@ import com.switchfully.digibooky.api.dtos.mapper.BookMapper;
 import com.switchfully.digibooky.api.dtos.mapper.MemberMapper;
 import com.switchfully.digibooky.domain.Book;
 import com.switchfully.digibooky.repository.BookRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookServiceTest {
+    private static final Logger log = LoggerFactory.getLogger(BookServiceTest.class);
     private BookService bookService;
     private BookRepository bookRepository;
     private BookMapper bookMapper;
@@ -35,6 +37,7 @@ public class BookServiceTest {
     }
 
     @Test
+    @Order(1)
     void getAllBooks_shouldReturnAllBooks() {
         List<BookDto> allBooks = bookService.getAllBooks();
 
@@ -45,9 +48,12 @@ public class BookServiceTest {
     }
 
     @Test
+    @Order(2)
     void getBookById_ShouldReturnBook() {
-        long id = 1;
-        BookDto result = bookService.getBookById(id);
+        Book book = bookRepository.getAllBooks().get(0);
+
+        BookDetailsDto result = bookService.getBookDetailsById(book.getId());
+
 
         assertNotNull(result);
         assertEquals(bookRepository.getAllBooks().get(0).getIsbn(), result.getIsbn());
@@ -55,15 +61,19 @@ public class BookServiceTest {
     }
 
     @Test
+    @Order(3)
     void searchBooksByIsbn_shouldReturnMatchingBooks() {
         List<BookDto> books = bookService.searchBooksByIsbn("978*");
+        log.info("Found {} books", books);
 
         assertEquals(3, books.size());
         assertEquals("The Great Adventure", books.get(0).getTitle());
         assertEquals("Mystery of the Old Manor", books.get(1).getTitle());
+        assertEquals("Programming Basics", books.get(2).getTitle());
     }
 
     @Test
+    @Order(4)
     void getBookByIsbn_whenNoMatch_shouldReturnEmptyList() {
         List<BookDto> books = bookService.searchBooksByIsbn("123*");
 
@@ -71,6 +81,7 @@ public class BookServiceTest {
     }
 
     @Test
+    @Order(5)
     void createBook_shouldCreateNewBook() {
         AuthorDto authorA = new AuthorDto("George", "Orwell");
         BookDto bookDto = new BookDto("978-92-95055-02-5", "The Great Project",authorA , "A nice project story.",3);
@@ -85,6 +96,7 @@ public class BookServiceTest {
     }
 
     @Test
+    @Order(6)
     void updateBook_shouldUpdateExistingBook() {
         AuthorDto authorA = new AuthorDto("George", "Orwell");
         BookDto bookDto = new BookDto("978-1-23-456789-7", "The Great Project",authorA , "A nice project story.",3);
@@ -99,6 +111,7 @@ public class BookServiceTest {
     }
 
     @Test
+    @Order(7)
     void deleteBook_shouldDeleteExistingBook() {
         Book book = bookRepository.getBookByIsbn("978-1-23-456789-7");
 
@@ -108,6 +121,7 @@ public class BookServiceTest {
     }
 
     @Test
+    @Order(8)
     void checkISBN13_shouldReturnTrueForValidISBN() {
         String validISBN = "978-92-95055-02-5";
 
@@ -116,6 +130,7 @@ public class BookServiceTest {
     }
 
     @Test
+    @Order(9)
     void checkISBN13_shouldReturnFalseForInvalidFormat() {
         String validISBN = "978-92-95-5";
 

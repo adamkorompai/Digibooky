@@ -84,4 +84,5 @@ public class RentalServiceTest {
         assertFalse(userRentals.isEmpty());
         assertEquals(testBookIsbn, userRentals.get(0).getBookIsbn());
     }
+
 }
