@@ -104,7 +104,7 @@ public class RentalServiceTest {
         List<RentalDto> result = rentalService.getOverdueRentals();
 
         assertEquals(4, result.size()); // 3 overdue rentals are initialized in the repo
-        assertEquals(overdueRental.getId(), result.get(0).getId());
+        assertEquals(overdueRental.getId(), result.get(3).getId());
     }
 
     @Test
