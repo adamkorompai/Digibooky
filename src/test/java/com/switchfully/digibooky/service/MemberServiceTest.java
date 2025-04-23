@@ -1,6 +1,7 @@
 package com.switchfully.digibooky.service;
 
 import com.switchfully.digibooky.api.dtos.CreateMemberDto;
+import com.switchfully.digibooky.api.dtos.MemberDto;
 import com.switchfully.digibooky.api.dtos.mapper.MemberMapper;
 import com.switchfully.digibooky.domain.Member;
 import com.switchfully.digibooky.domain.Role;
@@ -106,7 +107,7 @@ public class MemberServiceTest {
                 "password1"
         );
         memberService.saveMember(dtoCreated);
-        Member member = getLastMemberAdded();
+        MemberDto ddto = memberService.getMemberByUsername(dtoCreated.getUsername());
         Assertions.assertEquals(member.getRole(), Role.MEMBER);
     }
 
@@ -183,7 +184,7 @@ public class MemberServiceTest {
     private Member getLastMemberAdded() {
         List<Member> members = memberRepository.getAllMembers();
         System.out.println("getLastMemberAdded method : "+ members);
-        return members.get(0);
+        return members.get(members.size() - 1);
 
     }
 

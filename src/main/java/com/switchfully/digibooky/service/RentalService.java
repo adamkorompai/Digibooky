@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,20 +48,28 @@ public class RentalService {
         this.bookMapper = bookMapper;
     }
 
-
-
+    public ArrayList<RentalDto> getRentals() {
+        return new ArrayList<>(rentalRepository.getRentals().values().stream().map(rentalMapper::map).toList());
+    }
 
     //TODO : Validation du ISBN
     //TODO:
     public CreateRentalDto createRent(CreateRentalDto rentalDto) {
         Book book = books.getBookByIsbn(rentalDto.getBookIsbn());
-        Member member = members.getMember(rentalDto.getUserId());
 
+        if (book == null) {
+            throw new ResourcenNotFoundException("Book not found");
+        }
+        Member member = members.getMember(rentalDto.getUserId());
+        if(member == null) {
+            throw new ResourcenNotFoundException("Member not found");
+        }
         if (book.getNumberOfCopy() == 0) {
             throw new ResourcenNotFoundException("No copy available");
         } else if (book.getNumberOfCopy() == -1 ) {
             throw new ResourcenNotFoundException("This book is deleted");
         }
+
 
         bookRepository.removeCopyOfBook(book.getId());
         Rental rental = rentalMapper.map(rentalDto,getReturnDate(rentalDto.getRentDate()));
@@ -102,4 +111,6 @@ public class RentalService {
 
         return bookMapper.mapToBookDetailsMemberDto(book, rental);
     }
+
+
 }

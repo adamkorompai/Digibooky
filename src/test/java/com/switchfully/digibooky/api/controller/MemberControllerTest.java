@@ -2,16 +2,26 @@ package com.switchfully.digibooky.api.controller;
 
 
 import com.switchfully.digibooky.api.dtos.CreateMemberDto;
+import com.switchfully.digibooky.api.dtos.CreateRentalDto;
 import com.switchfully.digibooky.api.dtos.MemberDto;
+import com.switchfully.digibooky.api.dtos.RentalDto;
 import com.switchfully.digibooky.domain.Role;
 import com.switchfully.digibooky.repository.BookRepository;
 import com.switchfully.digibooky.service.BookService;
 import com.switchfully.digibooky.service.MemberService;
+import com.switchfully.digibooky.service.RentalService;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+
+import java.time.LocalDate;
+import java.util.Base64;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
@@ -20,14 +30,25 @@ import static org.hamcrest.Matchers.*;
 public class MemberControllerTest {
 
 
+    private static final Logger log = LoggerFactory.getLogger(MemberControllerTest.class);
     @LocalServerPort
     private int port;
+
+
     @Autowired
     private MemberService memberService;
     @Autowired
     private BookRepository bookRepository;
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private RentalService rentalService;
+
+    private String base64Credentials;
+
+
+
 
     /*
     *
@@ -37,6 +58,14 @@ public class MemberControllerTest {
 
     *
     * */
+
+
+    @BeforeEach
+    void setUp() {
+        String credentials = "bob1:passwordbob";
+        base64Credentials = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
+    }
+
 
     @Test
     public void SavingMember_ShouldSaveMember() {
@@ -68,8 +97,9 @@ public class MemberControllerTest {
         given()
                 .port(port)
                 .contentType("application/json")
+                .header("Authorization",base64Credentials)
                 .when()
-                .get("/digibooky/members")
+                .get("/digibooky/admin")
                 .then()
                 .statusCode(200)
                 .body("size()", equalTo(size));
@@ -79,30 +109,75 @@ public class MemberControllerTest {
     @Test
     public void createAdmin_AddsAdmin() {
         int size = memberService.getAllMember().stream().filter(e -> e.getRole().equals(Role.ADMIN)).toList().size();
-
+        log.info(memberService.getAllMember().stream().filter(e -> e.getRole().equals(Role.ADMIN)).toList().toString());
         MemberDto dto = new MemberDto(
                 "951014-523-14",
                 "Lisa",
-                "lisaxx_simpson@hotmail.com",
+                "Charles_Xavier@hotmail.com",
                 "username200",
                 "password"
         );
-        memberService.createAdmin(dto);
+        Response response = given()
+                .port(port)
+                .contentType("application/json")
+                .header("Authorization",base64Credentials)
+                .when()
+                .body(dto)
+                .post("/digibooky/admin");
 
-        int newSize = memberService.getAllMember().stream().filter(e -> e.getRole().equals(Role.ADMIN)).toList().size();
+        System.out.println(response.getBody().prettyPrint());
 
 
+
+        int new_size = memberService.getAllMember().stream().filter(e -> e.getRole().equals(Role.ADMIN)).toList().size();
+
+        Assertions.assertEquals(new_size, size + 1);
+    }
+
+    @Test
+    public void createLibrarian_AddsLibrarian() {
+        int size = memberService.getAllMember().stream().filter(e -> e.getRole().equals(Role.LIBRARIAN)).toList().size();
+
+        MemberDto dto = new MemberDto(
+                "Lisa",
+                "Simpsons",
+                "lisaxx_simpson@hotmail.com",
+                "Lize",
+                "simps"
+        );
         given()
                 .port(port)
                 .contentType("application/json")
+                .header("Authorization",base64Credentials)
                 .when()
                 .body(dto)
-                .post("/digibooky/admin")
+                .post("/digibooky/admin/librarian")
                 .then()
                 .statusCode(201);
 
-        Assertions.assertEquals(newSize, size + 1);
+        int new_size = memberService.getAllMember().stream().filter(e -> e.getRole().equals(Role.LIBRARIAN)).toList().size();
+
+        Assertions.assertEquals(new_size, size + 1);
     }
 
 
+    //Todo Not finished
+    @Test
+    public void RentABook_AddsARent() {
+
+        CreateRentalDto dto = new CreateRentalDto();
+
+
+        Response response = given()
+                .port(port)
+                .contentType("application/json")
+                .header("Authorization",base64Credentials)
+                .when()
+                .get();
+
+
+
+
+
+    }
 }

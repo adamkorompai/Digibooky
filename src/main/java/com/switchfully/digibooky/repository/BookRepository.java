@@ -42,6 +42,7 @@ public class BookRepository {
     }
 
     public Book getBookById(long id) {
+        System.out.println(bookDatabase.values());
         return bookDatabase.get(id);
     }
 

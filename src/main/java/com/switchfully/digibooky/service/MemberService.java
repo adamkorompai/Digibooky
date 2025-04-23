@@ -27,6 +27,13 @@ public class MemberService {
         this.mapper = mapper;
     }
 
+    public MemberDto getMemberByUsername(String username) {
+        Member member = repository.getMemberByUsername(username);
+        return mapper.toDto(member);
+    }
+
+
+
     public CreateMemberDto saveMember(CreateMemberDto createMemberDto) {
 
         validateMemberFormat(createMemberDto);
@@ -105,8 +112,6 @@ public class MemberService {
             throw new IllegalArgumentException(errorMessage);
         }
     }
-
-
 
 
 
