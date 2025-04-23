@@ -22,9 +22,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
 
 public class RentalServiceTest {
     private RentalService rentalService;
@@ -41,6 +39,7 @@ public class RentalServiceTest {
     private Rental testRental;
     private String testBookIsbn;
     private CreateRentalDto testCreateRentalDto;
+    private Rental overdueRental;
 
     @BeforeEach
     void setUp() {
@@ -69,7 +68,10 @@ public class RentalServiceTest {
 
         testRental = new Rental(testBookIsbn, testMember.getId(), LocalDate.now(), LocalDate.now().plusWeeks(3));
 
-        rentalRepository = new RentalRepository();
+        LocalDate pastRentDate = LocalDate.now().minusMonths(1);
+        LocalDate pastReturnDate = pastRentDate.plusWeeks(3);
+        overdueRental = new Rental(testBookIsbn, testMember.getId(), pastRentDate, pastReturnDate);
+
     }
 
     @Test
@@ -85,4 +87,35 @@ public class RentalServiceTest {
         assertEquals(testBookIsbn, userRentals.get(0).getBookIsbn());
     }
 
+    @Test
+    void getRentalsByUserId_ReturnsUserRentals() {
+        rentalRepository.addRental(testRental);
+
+        List<RentalDto> result = rentalService.getRentalsByUserId(testMember.getId());
+
+        assertEquals(1, result.size());
+        assertEquals(testRental.getId(), result.get(0).getId());
+    }
+
+    @Test
+    void getOverdueRentals_ReturnsOverdueRentals() {
+        rentalRepository.addRental(overdueRental);
+
+        List<RentalDto> result = rentalService.getOverdueRentals();
+
+        assertEquals(4, result.size()); // 3 overdue rentals are initialized in the repo
+        assertEquals(overdueRental.getId(), result.get(0).getId());
+    }
+
+    @Test
+    void getBookDetailsForMemberById_ReturnsBookDetails() {
+        rentalRepository.addRental(testRental);
+
+        BookDetailsMemberDto result = rentalService.getBookDetailsForMemberById(testBook.getId());
+
+        assertNotNull(result);
+        assertEquals(testBook.getIsbn(), result.getIsbn());
+        assertEquals(testBook.getTitle(), result.getTitle());
+        assertEquals(true, result.isBorrowed());
+    }
 }
