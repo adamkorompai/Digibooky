@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import com.switchfully.digibooky.domain.*;
 import com.switchfully.digibooky.repository.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
 
 
@@ -15,6 +17,7 @@ import java.util.Base64;
 @WebFilter("/*")
 public class BasicAuthFilter implements Filter {
 
+    private static final Logger log = LoggerFactory.getLogger(BasicAuthFilter.class);
     private final MemberMapper memberMapper = new MemberMapper();
     private final MemberRepository memberRepository = new MemberRepository(memberMapper);
 
@@ -43,8 +46,12 @@ public class BasicAuthFilter implements Filter {
             String username = parts[0];
             String password = parts[1];
 
+            log.info("Attempting to authenticate user with this request: " + request);
+
             // Validate username and password
+            log.info("Attempting to authenticate user: " + memberRepository.getAllMembers());
             Member member = memberRepository.getMemberByUsername(username);
+            log.info("User: " + member);
 
             if (member != null && member.getPassword().equals(password)) {
                 // Authentication successful, set role in the request for the interceptor to use

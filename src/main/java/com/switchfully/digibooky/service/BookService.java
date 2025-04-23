@@ -54,6 +54,9 @@ public class BookService {
     public BookDetailsDto getBookDetailsById(long id) {
         logger.info("Getting book by id {}", id);
         Book book = bookRepository.getBookById(id);
+        if(book == null){
+            throw new ResourcenNotFoundException("No book found with id " + id);
+        }
         if (book.getNumberOfCopy() == -1) {
             throw new ResourcenNotFoundException("This book has been deleted");
         }

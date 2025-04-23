@@ -71,7 +71,7 @@ public class RoleBasedAuthorizationInterceptorTest {
                 + "\"numberOfCopy\": 2"
                 + "}";
 
-        mockMvc.perform(post("/digibooky/librarian")  // POST method
+        mockMvc.perform(post("/digibooky/librarian/books")  // POST method
                         .header(HttpHeaders.AUTHORIZATION, "Basic " + encodeBase64("gadalf1:passwordgadalf"))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonContent))
