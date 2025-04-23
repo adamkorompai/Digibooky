@@ -52,7 +52,7 @@ public class BookServiceTest {
     void getBookById_ShouldReturnBook() {
         Book book = bookRepository.getAllBooks().get(0);
 
-        BookDetailsDto result = bookService.getBookDetailsById(book.getId());
+        BookDto result = bookService.getBookById(book.getId());
 
 
         assertNotNull(result);
